@@ -1,4 +1,6 @@
 name: Lighthouse CI
+permissions:
+  contents: read
 
 on:
   push:
