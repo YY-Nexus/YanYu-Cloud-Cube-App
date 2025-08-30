@@ -1,21 +1,31 @@
-# Dependencies
+# 临时合并目录
+scripts/__merge/
+__merge/
+___clones/
+
+# Node.js 依赖
 node_modules/
+apps/*/node_modules/
+packages/*/node_modules/
+
+# Python 相关
 __pycache__/
 *.pyc
 *.pyo
 
-# Build outputs
+# 构建产物
 dist/
 build/
 *.egg-info/
 
-# IDE and editor files
+# IDE 和编辑器
+.vscode/
 .vscode/settings.json
 .idea/
 *.swp
 *.swo
 
-# OS generated files
+# 系统文件
 .DS_Store
 .DS_Store?
 ._*
@@ -24,18 +34,20 @@ build/
 ehthumbs.db
 Thumbs.db
 
-# Logs
+# 日志
 *.log
 logs/
 
-# Environment variables
+# 环境变量
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+*.env*
+*.local
 
-# Temporary files
+# 临时文件
 tmp/
 temp/
 *.tmp

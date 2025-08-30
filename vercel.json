@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "apps/web/next.config.mjs", "use": "@vercel/next" }
+  ],
+  "env": {
+    "NEXT_TELEMETRY_DISABLED": "1"
+  },
+  "framework": "nextjs",
+  "ignoreCommand": "node infra/scripts/ignore-build-if-only-docs.js"
+}

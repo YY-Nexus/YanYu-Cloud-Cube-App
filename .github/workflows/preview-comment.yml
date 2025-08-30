@@ -1,0 +1,36 @@
+name: Preview Deploy (PR)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm i -g vercel@latest
+      - name: Build & Deploy Preview
+        run: |
+          vercel pull --yes --environment=preview --token $VERCEL_TOKEN
+          vercel build --token $VERCEL_TOKEN
+          URL=$(vercel deploy --prebuilt --token $VERCEL_TOKEN)
+          echo "PREVIEW_URL=$URL" >> $GITHUB_ENV
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      - name: Comment PR
+        uses: actions/github-script@v7
+        with:
+            script: |
+              const url = process.env.PREVIEW_URL;
+              const body = `🔍 Preview 已部署: ${url}`;
+              const {context, github} = require('@actions/github');
+              await github.rest.issues.createComment({
+                ...context.repo,
+                issue_number: context.issue.number,
+                body
+              })

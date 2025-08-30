@@ -1,30 +1,39 @@
-# YanYu-Cloud-Cube-App
-YanYu Cloud Cube App
+# YanYu Cloud Cube App
 
-## Development Environment
+基于 Vercel 部署的前端应用，集成可复用 CI/CD、代码质量、自动修复与错误监控。
 
-This repository is configured with GitHub Codespaces for easy development setup. The development environment includes:
+## 快速开始
 
-### Pre-installed Tools
-- Node.js (LTS version)
-- Python (latest version)
-- Git
-- GitHub CLI
+```bash
+pnpm install
+pnpm dev
+```
 
-### VS Code Extensions
-- Essential development extensions for JavaScript/TypeScript, Python, and web development
-- GitHub Copilot for AI-assisted coding
-- Docker support
-- Markdown and YAML editing
+## 分支策略
 
-### Quick Start
-1. Open this repository in GitHub Codespaces
-2. The environment will be automatically configured with all necessary tools
-3. Start developing immediately!
+详见 docs/ci-cd.md
 
-### Port Forwarding
-The following ports are automatically forwarded for development:
-- 3000 (React/Node.js apps)
-- 5000 (Flask/general web apps)
-- 8000 (Django/Python web apps)
-- 8080 (Alternative web server port)
+## 部署
+
+```bash
+pnpm install
+pnpm dev
+```
+
+## 部署策略
+
+- PR → Preview (Vercel)
+- main → Production（满足质量门槛）
+- Tag v* → 正式发布 + Changelog + Production 部署
+
+## 目录结构
+
+- apps/web: 主应用
+- packages/*: 复用组件与工具
+- .github/workflows: CI/CD 与复用 workflows
+- infra/scripts: 部署与回滚辅助脚本
+- docs: 文档
+- architecture.md: 架构设计
+- ci-cd.md: CI/CD 流程
+- troubleshooting.md: 问题排查
+- error-budget.md: 错误预算

@@ -1,0 +1,40 @@
+name: Auto Fix Lint / Format
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * 1"  # 每周一固定跑
+  issue_comment:
+    types: [created]
+
+jobs:
+  autofix:
+    if: github.event_name != 'issue_comment' || contains(github.event.comment.body, '/autofix')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: {version: 9}
+      - uses: actions/setup-node@v4
+        with: {node-version: 20, cache: 'pnpm'}
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint:fix && pnpm format || true
+      - name: Create PR if changes
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            BR=chore/autofix-$(date +%Y%m%d%H%M%S)
+            git checkout -b $BR
+            git add .
+            git commit -m "chore: autofix lint & format"
+            git push origin $BR
+            gh pr create --title "chore: autofix lint & format" --body "自动修复流水线生成" --base main
+          else
+            echo "No autofix changes."
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

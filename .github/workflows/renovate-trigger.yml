@@ -1,0 +1,15 @@
+name: Renovate Trigger
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  renovate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Renovate Bot
+        uses: renovatebot/github-action@v36.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
