@@ -1,0 +1,77 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  # Update dependencies for root package.json
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 10
+    reviewers:
+      - 'YY-Nexus'
+    assignees:
+      - 'YY-Nexus'
+    commit-message:
+      prefix: 'chore'
+      include: 'scope'
+
+  # Update dependencies for Supabase app
+  - package-ecosystem: 'npm'
+    directory: '/apps/Supabase'
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 5
+    reviewers:
+      - 'YY-Nexus'
+    assignees:
+      - 'YY-Nexus'
+    commit-message:
+      prefix: 'chore'
+      prefix-development: 'chore'
+      include: 'scope'
+
+  # Update dependencies for markdown app
+  - package-ecosystem: 'npm'
+    directory: '/apps/markdown'
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 5
+    reviewers:
+      - 'YY-Nexus'
+    assignees:
+      - 'YY-Nexus'
+    commit-message:
+      prefix: 'chore'
+      include: 'scope'
+
+  # Update dependencies for ewm app
+  - package-ecosystem: 'npm'
+    directory: '/apps/ewm'
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 5
+    reviewers:
+      - 'YY-Nexus'
+    assignees:
+      - 'YY-Nexus'
+    commit-message:
+      prefix: 'chore'
+      include: 'scope'
+
+  # GitHub Actions workflow dependencies
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 5
+    reviewers:
+      - 'YY-Nexus'
+    assignees:
+      - 'YY-Nexus'
+    commit-message:
+      prefix: 'chore'
+      include: 'scope'
