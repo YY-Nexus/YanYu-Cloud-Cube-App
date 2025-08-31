@@ -8,7 +8,6 @@ importers:
   .:
     dependencies:
       next:
-        specifier: ^15.2.4
         version: 15.5.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.2.0
@@ -45,7 +44,6 @@ importers:
         specifier: ^2.0.0
         version: 2.5.6
       typescript:
-        specifier: ^5.5.0
         version: 5.9.2
       vitest:
         specifier: ^1.6.0
@@ -134,7 +132,58 @@ importers:
       typescript:
         specifier: ^4.9.3
         version: 4.9.5
+  scripts/__merge/Supabase:
+    dependencies:
+      '@supabase/supabase-js':
+        specifier: ^2.39.6
+        version: 2.56.1
+      jwt-decode:
+        specifier: ^4.0.0
+        version: 4.0.0
+      next:
+        specifier: latest
+        version: 15.5.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react:
+        specifier: ^18.2.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      autoprefixer:
+        specifier: ^10.4.14
+        version: 10.4.21(postcss@8.5.6)
+      postcss:
+        specifier: ^8.4.24
+        version: 8.5.6
+      tailwindcss:
+        specifier: ^3.3.2
+        version: 3.4.17
 
+  scripts/__merge/markdown:
+    dependencies:
+      next:
+        specifier: ^13.0.6
+        version: 13.5.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      nextra:
+        specifier: latest
+        version: 4.4.0(next@13.5.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@4.9.5)
+      nextra-theme-docs:
+        specifier: latest
+        version: 4.4.0(next@13.5.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(nextra@4.4.0(next@13.5.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@4.9.5))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(use-sync-external-store@1.5.0(react@18.3.1))
+      react:
+        specifier: ^18.2.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@types/node':
+        specifier: 18.11.10
+        version: 18.11.10
+      typescript:
+        specifier: ^4.9.3
+        version: 4.9.5
 packages:
   '@alloc/quick-lru@5.2.0':
     resolution:

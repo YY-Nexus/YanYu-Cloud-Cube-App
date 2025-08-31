@@ -25,13 +25,5 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - name: Sentry sourcemaps upload
-        if: env.SENTRY_AUTH_TOKEN != ''
-        run: |
-          npx sentry-cli sourcemaps upload --org $SENTRY_ORG --project $SENTRY_PROJECT apps/web/.next
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
       - name: Output
-        run: echo "Production build
+        run: echo "Production build complete"
