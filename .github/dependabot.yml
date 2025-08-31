@@ -11,10 +11,6 @@ updates:
     schedule:
       interval: 'weekly'
     open-pull-requests-limit: 10
-    reviewers:
-      - 'YY-Nexus'
-    assignees:
-      - 'YY-Nexus'
     commit-message:
       prefix: 'chore'
       include: 'scope'
@@ -25,10 +21,6 @@ updates:
     schedule:
       interval: 'weekly'
     open-pull-requests-limit: 5
-    reviewers:
-      - 'YY-Nexus'
-    assignees:
-      - 'YY-Nexus'
     commit-message:
       prefix: 'chore'
       prefix-development: 'chore'
@@ -40,10 +32,6 @@ updates:
     schedule:
       interval: 'weekly'
     open-pull-requests-limit: 5
-    reviewers:
-      - 'YY-Nexus'
-    assignees:
-      - 'YY-Nexus'
     commit-message:
       prefix: 'chore'
       include: 'scope'
@@ -54,10 +42,6 @@ updates:
     schedule:
       interval: 'weekly'
     open-pull-requests-limit: 5
-    reviewers:
-      - 'YY-Nexus'
-    assignees:
-      - 'YY-Nexus'
     commit-message:
       prefix: 'chore'
       include: 'scope'
@@ -68,10 +52,6 @@ updates:
     schedule:
       interval: 'weekly'
     open-pull-requests-limit: 5
-    reviewers:
-      - 'YY-Nexus'
-    assignees:
-      - 'YY-Nexus'
     commit-message:
       prefix: 'chore'
       include: 'scope'
