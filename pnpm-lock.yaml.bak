@@ -1,5 +1,23 @@
 lockfileVersion: '9.0'
 
+# 以下 Python 脚本用于统计 deps.txt 文件中的依赖及其版本
+# 用法：将 deps.txt 文件放在同目录下，运行此脚本
+
+with open('deps.txt', 'r', encoding='utf-8') as f:
+    lines = f.readlines()
+
+deps = {}
+for line in lines:
+    if ':' in line or not line.strip():
+        continue
+    parts = line.strip().rsplit(':', 1)
+    if len(parts) == 2:
+        name, version = parts
+        deps.setdefault(name, []).append(version)
+
+for name, versions in deps.items():
+    print(f"{name}: {', '.join(versions)}")
+
 settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
@@ -8,7 +26,7 @@ importers:
   .:
     dependencies:
       next:
-        specifier: ^15.5.2
+        specifier: ^15.2.4
         version: 15.5.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.2.0
@@ -18,10 +36,6 @@ importers:
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@commitlint/cli':
-        specifier: ^19.8.1
-        version: 19.8.1(@types/node@20.19.11)(typescript@5.9.2)
-      '@commitlint/config-conventional':
-        specifier: ^19.8.1
         version: 19.8.1
       '@types/node':
         specifier: ^20.0.0
@@ -45,7 +59,7 @@ importers:
         specifier: ^2.0.0
         version: 2.5.6
       typescript:
-        specifier: ^5.9.2
+        specifier: ^5.5.0
         version: 5.9.2
       vitest:
         specifier: ^1.6.0
@@ -111,59 +125,6 @@ importers:
         version: 4.9.5
 
   apps/markdown:
-    dependencies:
-      next:
-        specifier: ^13.0.6
-        version: 13.5.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      nextra:
-        specifier: latest
-        version: 4.4.0(next@13.5.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@4.9.5)
-      nextra-theme-docs:
-        specifier: latest
-        version: 4.4.0(next@13.5.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(nextra@4.4.0(next@13.5.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@4.9.5))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(use-sync-external-store@1.5.0(react@18.3.1))
-      react:
-        specifier: ^18.2.0
-        version: 18.3.1
-      react-dom:
-        specifier: ^18.2.0
-        version: 18.3.1(react@18.3.1)
-    devDependencies:
-      '@types/node':
-        specifier: 18.11.10
-        version: 18.11.10
-      typescript:
-        specifier: ^4.9.3
-        version: 4.9.5
-
-  scripts/__merge/Supabase:
-    dependencies:
-      '@supabase/supabase-js':
-        specifier: ^2.39.6
-        version: 2.56.1
-      jwt-decode:
-        specifier: ^4.0.0
-        version: 4.0.0
-      next:
-        specifier: latest
-        version: 15.5.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react:
-        specifier: ^18.2.0
-        version: 18.3.1
-      react-dom:
-        specifier: ^18.2.0
-        version: 18.3.1(react@18.3.1)
-    devDependencies:
-      autoprefixer:
-        specifier: ^10.4.14
-        version: 10.4.21(postcss@8.5.6)
-      postcss:
-        specifier: ^8.4.24
-        version: 8.5.6
-      tailwindcss:
-        specifier: ^3.3.2
-        version: 3.4.17
-
-  scripts/__merge/markdown:
     dependencies:
       next:
         specifier: ^13.0.6
@@ -2355,10 +2316,17 @@ packages:
       }
     engines: { node: '>=6' }
 
+<<<<<<< HEAD
+  caniuse-lite@1.0.30001737:
+    resolution:
+      {
+        integrity: sha512-BiloLiXtQNrY5UyF0+1nSJLXUENuhka2pzy2Fx5pGxqavdrxSCW4U6Pn/PoG3Efspi2frRbHpBV2XsrPE6EDlw==,
+=======
   caniuse-lite@1.0.30001739:
     resolution:
       {
         integrity: sha512-y+j60d6ulelrNSwpPyrHdl+9mJnQzHBr08xm48Qno0nSk4h3Qojh+ziv2qE6rXf4k3tadF4o1J/1tAbVm1NtnA==,
+>>>>>>> e08a990 (fix: 自动修复 pnpm-lock.yaml 冲突并标准化依赖)
       }
 
   ccount@2.0.1:
@@ -8373,7 +8341,11 @@ snapshots:
   autoprefixer@10.4.21(postcss@8.5.6):
     dependencies:
       browserslist: 4.25.4
+<<<<<<< HEAD
+      caniuse-lite: 1.0.30001737
+=======
       caniuse-lite: 1.0.30001739
+>>>>>>> e08a990 (fix: 自动修复 pnpm-lock.yaml 冲突并标准化依赖)
       fraction.js: 4.3.7
       normalize-range: 0.1.2
       picocolors: 1.1.1
@@ -8406,7 +8378,11 @@ snapshots:
 
   browserslist@4.25.4:
     dependencies:
+<<<<<<< HEAD
+      caniuse-lite: 1.0.30001737
+=======
       caniuse-lite: 1.0.30001739
+>>>>>>> e08a990 (fix: 自动修复 pnpm-lock.yaml 冲突并标准化依赖)
       electron-to-chromium: 1.5.211
       node-releases: 2.0.19
       update-browserslist-db: 1.1.3(browserslist@4.25.4)
@@ -8431,7 +8407,11 @@ snapshots:
 
   camelcase@5.3.1: {}
 
+<<<<<<< HEAD
+  caniuse-lite@1.0.30001737: {}
+=======
   caniuse-lite@1.0.30001739: {}
+>>>>>>> e08a990 (fix: 自动修复 pnpm-lock.yaml 冲突并标准化依赖)
 
   ccount@2.0.1: {}
 
@@ -10417,7 +10397,11 @@ snapshots:
       '@next/env': 13.5.11
       '@swc/helpers': 0.5.2
       busboy: 1.6.0
+<<<<<<< HEAD
+      caniuse-lite: 1.0.30001737
+=======
       caniuse-lite: 1.0.30001739
+>>>>>>> e08a990 (fix: 自动修复 pnpm-lock.yaml 冲突并标准化依赖)
       postcss: 8.4.31
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -10441,7 +10425,11 @@ snapshots:
     dependencies:
       '@next/env': 15.5.2
       '@swc/helpers': 0.5.15
+<<<<<<< HEAD
+      caniuse-lite: 1.0.30001737
+=======
       caniuse-lite: 1.0.30001739
+>>>>>>> e08a990 (fix: 自动修复 pnpm-lock.yaml 冲突并标准化依赖)
       postcss: 8.4.31
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
