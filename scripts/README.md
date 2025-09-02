@@ -22,6 +22,12 @@
 - `compare-merge-result.sh`  
   自动对比 `merge.txt` 清单与 `apps/` 目录，输出已合并和未合并仓库列表。
 
+- `auto-fix-pnpm-lock-conflicts.sh`  
+  自动解决 `pnpm-lock.yaml` 文件中的Git合并冲突，删除上半部分内容，保留下半部分。
+
+- `auto-resolve-conflicts.sh`  
+  通用的Git冲突自动解决工具，支持任意文件类型，智能删除冲突的上半部分内容。
+
 - `apply-template.sh`  
   用于批量应用项目模板到指定仓库。
 
