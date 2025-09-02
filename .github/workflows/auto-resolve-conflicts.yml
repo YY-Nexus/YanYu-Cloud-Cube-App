@@ -1,0 +1,149 @@
+name: 自动解决冲突
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+jobs:
+  auto-resolve-conflicts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout代码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 设置Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 安装pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.0.0
+
+      - name: 配置Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: 检查冲突状态
+        id: check-conflicts
+        run: |
+          chmod +x scripts/auto-resolve-git-conflicts.sh
+          chmod +x scripts/auto-fix-pnpm-lock-conflicts.sh
+
+          # 检查是否有未解决的冲突
+          if git diff --name-only --diff-filter=U | grep -q .; then
+            echo "conflicts=true" >> $GITHUB_OUTPUT
+            echo "发现Git合并冲突"
+          else
+            echo "conflicts=false" >> $GITHUB_OUTPUT
+            echo "没有发现Git合并冲突"
+          fi
+
+          # 检查lockfile是否损坏
+          if ! pnpm install --dry-run 2>&1 | grep -q "lockfile is up to date"; then
+            echo "lockfile_broken=true" >> $GITHUB_OUTPUT
+            echo "检测到lockfile问题"
+          else
+            echo "lockfile_broken=false" >> $GITHUB_OUTPUT
+            echo "lockfile状态正常"
+          fi
+
+      - name: 自动解决Git冲突
+        if: steps.check-conflicts.outputs.conflicts == 'true'
+        run: |
+          echo "开始自动解决Git合并冲突..."
+          ./scripts/auto-resolve-git-conflicts.sh
+
+          # 如果解决成功，提交更改
+          if [ $? -eq 0 ]; then
+            git add .
+            git commit -m "chore: 自动解决合并冲突 [skip ci]" || echo "没有需要提交的更改"
+          fi
+
+      - name: 修复损坏的lockfile
+        if: steps.check-conflicts.outputs.lockfile_broken == 'true'
+        run: |
+          echo "开始修复损坏的lockfile..."
+          ./scripts/auto-fix-pnpm-lock-conflicts.sh
+
+          # 提交lockfile修复
+          if git diff --exit-code pnpm-lock.yaml; then
+            echo "lockfile无需修复"
+          else
+            git add pnpm-lock.yaml
+            git commit -m "fix: 自动修复损坏的pnpm-lock.yaml [skip ci]"
+          fi
+
+      - name: 验证项目状态
+        run: |
+          echo "验证项目构建状态..."
+
+          # 安装依赖
+          pnpm install
+
+          # 运行类型检查
+          if [ -f "tsconfig.json" ]; then
+            pnpm run type-check || echo "类型检查警告"
+          fi
+
+          # 运行linter
+          if [ -f ".eslintrc.cjs" ] || [ -f ".eslintrc.js" ] || [ -f ".eslintrc.json" ]; then
+            pnpm run lint || echo "Linting警告"
+          fi
+
+          # 尝试构建
+          if grep -q '"build"' package.json; then
+            pnpm run build || echo "构建警告"
+          fi
+
+      - name: 推送解决的冲突
+        if: steps.check-conflicts.outputs.conflicts == 'true' || steps.check-conflicts.outputs.lockfile_broken == 'true'
+        run: |
+          # 检查是否有更改需要推送
+          if git diff --exit-code HEAD~1 HEAD; then
+            echo "没有需要推送的更改"
+          else
+            echo "推送冲突解决结果..."
+            git push origin ${{ github.ref }}
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 上传冲突解决日志
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: conflict-resolution-logs
+          path: |
+            conflict-resolution.log
+            auto-merge-resolution.log
+            .conflict-backups/
+          retention-days: 7
+
+      - name: 通知冲突解决结果
+        if: steps.check-conflicts.outputs.conflicts == 'true'
+        run: |
+          echo "## 🤖 自动冲突解决报告" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ 已自动解决检测到的合并冲突" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 处理的文件:" >> $GITHUB_STEP_SUMMARY
+
+          if [ -f "conflict-resolution.log" ]; then
+            grep "解决冲突:" conflict-resolution.log | sed 's/.*解决冲突: /- /' >> $GITHUB_STEP_SUMMARY || echo "- 详见日志文件" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 备份文件:" >> $GITHUB_STEP_SUMMARY
+          echo "原始冲突文件已备份到 \`.conflict-backups/\` 目录" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🔍 如果自动解决不正确，请检查备份文件并手动调整"

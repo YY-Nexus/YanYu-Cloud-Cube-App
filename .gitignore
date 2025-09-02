@@ -51,3 +51,8 @@ logs/
 tmp/
 temp/
 *.tmp
+
+# Conflict resolution backups and logs
+.conflict-backups/
+conflict-resolution.log
+auto-merge-resolution.log
