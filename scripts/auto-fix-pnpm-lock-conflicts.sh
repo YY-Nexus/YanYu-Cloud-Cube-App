@@ -13,8 +13,14 @@ fi
 # 备份原文件
 cp "$LOCK_FILE" "$LOCK_FILE.bak"
 
-# 删除所有冲突标记
-sed -i '' '/^<<<<<<< /d;/^=======/d;/^>>>>>>> /d' "$LOCK_FILE"
+# 删除所有冲突标记 (跨平台兼容)
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # macOS
+  sed -i '' '/^<<<<<<< /d;/^=======/d;/^>>>>>>> /d' "$LOCK_FILE"
+else
+  # Linux
+  sed -i '/^<<<<<<< /d;/^=======/d;/^>>>>>>> /d' "$LOCK_FILE"
+fi
 
 echo "已自动删除所有冲突标记，请手动检查依赖合并是否完整。"
 echo "建议执行 pnpm install 重新整理依赖关系。"
