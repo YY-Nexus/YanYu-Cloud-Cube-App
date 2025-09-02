@@ -1,4 +1,6 @@
 name: Lighthouse CI
+permissions:
+  contents: read
 
 on:
   push:
@@ -14,7 +16,9 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: '18'
+      - name: 安装 pnpm
+        run: npm install -g pnpm
       - name: Install dependencies
         run: pnpm install
       - name: Run Lighthouse

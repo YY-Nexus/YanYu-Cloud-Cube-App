@@ -1,3 +1,6 @@
 packages:
-  - "apps/*"
-  - "packages/*"
+  - 'apps/*'
+  - 'packages/*'
+  - '__merge/*'
+  - 'scripts/__merge/*'
+  - 'scripts/_merge_/*'
