@@ -3,6 +3,10 @@ scripts/__merge/
 merge_/
 ___clones/
 
+# 冲突解决备份文件
+*.conflict-backup
+*.bak
+
 # Node.js 依赖
 node_modules/
 apps/*/node_modules/
