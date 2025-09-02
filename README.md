@@ -9,6 +9,20 @@ pnpm install
 pnpm dev
 ```
 
+## 开发工具
+
+- **冲突解决**: 使用 `pnpm fix-conflicts` 自动解决 Git 冲突
+- **代码检查**: 使用 `pnpm lint` 进行代码质量检查
+- **类型检查**: 使用 `pnpm type-check` 进行 TypeScript 验证
+- **测试**: 使用 `pnpm test` 运行测试
+
+### 冲突解决脚本
+
+- `pnpm fix-conflicts` - 自动解决任意文件中的冲突
+- `pnpm fix-pnpm-conflicts` - 专门解决 pnpm-lock.yaml 冲突
+
+详细的冲突解决文档请参见 [docs/conflict-resolution.md](docs/conflict-resolution.md)
+
 ## 分支策略
 
 详见 docs/ci-cd.md
@@ -24,12 +38,12 @@ pnpm dev
 
 - PR → Preview (Vercel)
 - main → Production（满足质量门槛）
-- Tag v* → 正式发布 + Changelog + Production 部署
+- Tag v\* → 正式发布 + Changelog + Production 部署
 
 ## 目录结构
 
 - apps/web: 主应用
-- packages/*: 复用组件与工具
+- packages/\*: 复用组件与工具
 - .github/workflows: CI/CD 与复用 workflows
 - infra/scripts: 部署与回滚辅助脚本
 - docs: 文档

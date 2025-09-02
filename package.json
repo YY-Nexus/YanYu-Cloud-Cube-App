@@ -17,7 +17,9 @@
     "test:watch": "vitest",
     "format": "prettier . --write",
     "release": "standard-version",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "fix-conflicts": "bash scripts/auto-resolve-conflicts.sh",
+    "fix-pnpm-conflicts": "bash scripts/auto-resolve-conflicts.sh pnpm-lock.yaml"
   },
   "dependencies": {
     "next": "^15.5.2",
