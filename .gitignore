@@ -1,6 +1,6 @@
 # 临时合并目录
 scripts/__merge/
-__merge/
+merge_/
 ___clones/
 
 # Node.js 依赖

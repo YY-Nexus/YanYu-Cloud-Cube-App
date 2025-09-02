@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v4
         with: { version: 9 }
       - uses: actions/setup-node@v4
@@ -25,22 +25,5 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - name: Sentry sourcemaps upload
-        if: env.SENTRY_AUTH_TOKEN != ''
-        run: |
-          npx sentry-cli sourcemaps upload --org $SENTRY_ORG --project $SENTRY_PROJECT apps/web/.next
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-      - name: Deploy to Vercel
-        run: |
-          npm i -g vercel@latest
-          vercel pull --yes --environment=production --token $VERCEL_TOKEN
-          vercel build --prod --token $VERCEL_TOKEN
-          URL=$(vercel deploy --prebuilt --prod --token $VERCEL_TOKEN)
-          echo "DEPLOY_URL=$URL" >> $GITHUB_ENV
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       - name: Output
-        run: echo "Production deployed at $DEPLOY_URL"
+        run: echo "Production build complete"
