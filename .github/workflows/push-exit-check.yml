@@ -1,4 +1,4 @@
-name: Auto Push exit-check.mjs
+name: 自动推送 exit-check.mjs
 
 on:
   workflow_dispatch:
@@ -7,21 +7,22 @@ jobs:
   push-exit-check:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: 结帐代码
         uses: actions/checkout@v4
 
-      - name: Make changes (示例生成/覆盖文件)
-        run: echo '// updated by CI' > exit-check.mjs
+      - name: 进行更改（示例生成/覆盖文件）
+        run: echo "// 由 CI 更新" > exit-check.mjs
 
-      - name: Set git config
+      - name: 设置 git 配置
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Commit & Push
+      - name: 提交和推送（自动处理远程分支冲突）
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git add exit-check.mjs
-          git commit -m "ci: update exit-check.mjs" || echo "No changes to commit"
+          git commit -m "CI: 更新 exit-check.mjs" || echo "没有要提交的更改"
+          git pull origin feat/startup-quality-infra --rebase || echo "首次推送或分支无远程内容"
           git push origin HEAD:feat/startup-quality-infra
