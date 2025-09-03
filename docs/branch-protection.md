@@ -17,7 +17,7 @@ Inactive:
 - Prevent bypass
 
 Rationale:
-- Fast iterate on quality infra scripts (gate.mjs, exit-check.mjs)
+- 快速迭代高质量的基础设施脚本（gate.mjs、exit-check.mjs）
 - Avoid accidental merge to main without at least a visible PR review surface
 - Do not block while metrics & scoring model are still volatile
 
