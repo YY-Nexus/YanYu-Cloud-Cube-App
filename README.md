@@ -27,6 +27,20 @@ pnpm dev
 
 详见 docs/ci-cd.md
 
+### 分支保护
+
+启用分支保护和状态检查：
+
+```bash
+# 检查当前保护状态
+./check-branch-protection.sh
+
+# 启用分支保护
+./enable-branch-protection.sh
+```
+
+详细配置说明见 [docs/branch-protection.md](docs/branch-protection.md)
+
 ## 部署
 
 ```bash
@@ -47,7 +61,8 @@ pnpm dev
 - .github/workflows: CI/CD 与复用 workflows
 - infra/scripts: 部署与回滚辅助脚本
 - docs: 文档
-- architecture.md: 架构设计
-- ci-cd.md: CI/CD 流程
-- troubleshooting.md: 问题排查
-- error-budget.md: 错误预算
+  - architecture.md: 架构设计
+  - ci-cd.md: CI/CD 流程
+  - branch-protection.md: 分支保护配置
+  - troubleshooting.md: 问题排查
+  - error-budget.md: 错误预算
