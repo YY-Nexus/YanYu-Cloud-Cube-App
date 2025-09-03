@@ -2,9 +2,10 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import NavLink from './NavLink';
 import Image from 'next/image';
 import { usePathname, useSearchParams } from 'next/navigation';
+
+import NavLink from './NavLink';
 
 const Navbar = () => {
   const [state, setState] = useState(false);

@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+
 import NavLink from './NavLink';
 
 let heroImages = ['/1.png', '/6.png', '/3.png', '/4.png', '/5.png', '/2.png'];

@@ -25,7 +25,7 @@ const Footer = () => (
           <a
             className="border border-slate-200 rounded-md px-3 py-1 tracking-tight flex gap-1 hover:scale-105 transition"
             href="https://v0.dev/"
-            target="_blank"
+            target="_blank" rel="noreferrer"
           >
             <span className="text-gray-500">Built with</span>
             <V0Logo width={25} />

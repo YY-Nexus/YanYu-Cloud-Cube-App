@@ -1,6 +1,7 @@
 import { kv } from '@vercel/kv';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
+
 import Body from '@/components/Body';
 
 async function getAllKv(id: string) {

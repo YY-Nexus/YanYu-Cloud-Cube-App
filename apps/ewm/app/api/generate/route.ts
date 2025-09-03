@@ -1,9 +1,10 @@
-import { replicateClient } from '@/utils/ReplicateClient';
-import { QrGenerateRequest, QrGenerateResponse } from '@/utils/service';
 import { NextRequest } from 'next/server';
 // import { Ratelimit } from '@upstash/ratelimit';
 import { kv } from '@vercel/kv';
 import { put } from '@vercel/blob';
+
+import { QrGenerateRequest, QrGenerateResponse } from '@/utils/service';
+import { replicateClient } from '@/utils/ReplicateClient';
 import { nanoid } from '@/utils/utils';
 
 /**
