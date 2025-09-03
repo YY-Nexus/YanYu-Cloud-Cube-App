@@ -1,7 +1,7 @@
 ---
 name: 仓库标准化治理追踪
 about: 统一质量、CI/CD与依赖升级
-title: "标准化仓库治理"
+title: '标准化仓库治理'
 labels: chore
 ---
 

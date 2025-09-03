@@ -1,8 +1,6 @@
 {
   "version": 2,
-  "builds": [
-    { "src": "apps/web/next.config.mjs", "use": "@vercel/next" }
-  ],
+  "builds": [{ "src": "apps/web/next.config.mjs", "use": "@vercel/next" }],
   "env": {
     "NEXT_TELEMETRY_DISABLED": "1"
   },

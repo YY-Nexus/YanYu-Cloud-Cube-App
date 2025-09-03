@@ -51,3 +51,20 @@ logs/
 tmp/
 temp/
 *.tmp
+
+# Lock file backups and conflicts
+pnpm-lock.yaml.bak
+pnpm-lock.yaml.conflict-backup-*
+pnpm-lock.yaml.test*
+package-lock.json.bak
+yarn.lock.bak
+
+# Next.js specific
+.next/
+out/
+
+# Coverage reports
+coverage/
+
+# Turbo
+.turbo

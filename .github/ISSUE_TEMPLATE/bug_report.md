@@ -1,7 +1,7 @@
 ---
 name: Bug 报告
 about: 反馈项目中的问题
-title: "[Bug] "
+title: '[Bug] '
 labels: bug
 ---
 
