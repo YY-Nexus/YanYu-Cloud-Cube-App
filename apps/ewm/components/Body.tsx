@@ -3,6 +3,12 @@
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useCallback, useEffect, useState } from 'react';
+import { AlertCircle } from 'lucide-react';
+import va from '@vercel/analytics';
+import { useRouter } from 'next/navigation';
+import { toast, Toaster } from 'react-hot-toast';
+
 import {
   Form,
   FormControl,
@@ -15,17 +21,13 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { useCallback, useEffect, useState } from 'react';
 import { QrGenerateRequest, QrGenerateResponse } from '@/utils/service';
 import { QrCard } from '@/components/QrCard';
-import { AlertCircle } from 'lucide-react';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import LoadingDots from '@/components/ui/loadingdots';
 import downloadQrCode from '@/utils/downloadQrCode';
-import va from '@vercel/analytics';
 import { PromptSuggestion } from '@/components/PromptSuggestion';
-import { useRouter } from 'next/navigation';
-import { toast, Toaster } from 'react-hot-toast';
+
 
 const promptSuggestions = [
   'A city view with clouds',

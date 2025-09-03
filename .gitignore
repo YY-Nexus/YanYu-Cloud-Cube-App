@@ -18,6 +18,10 @@ dist/
 build/
 *.egg-info/
 
+# 测试覆盖率报告
+coverage/
+.nyc_output/
+
 # IDE 和编辑器
 .vscode/
 .vscode/settings.json
@@ -46,6 +50,7 @@ logs/
 .env.production.local
 *.env*
 *.local
+!.env.example
 
 # 临时文件
 tmp/

@@ -1,6 +1,8 @@
-import { getEnv, ENV_KEY } from '@/utils/env';
 import Replicate from 'replicate';
+
 import { QrCodeControlNetRequest, QrCodeControlNetResponse } from './types';
+
+import { getEnv, ENV_KEY } from '@/utils/env';
 
 export class ReplicateClient {
   replicate: Replicate;
