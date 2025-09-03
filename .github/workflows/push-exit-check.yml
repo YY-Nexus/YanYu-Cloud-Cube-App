@@ -33,6 +33,4 @@ jobs:
         run: git pull origin feat/startup-quality-infra --rebase
 
       - name: Push changes
-        env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: git push origin HEAD:feat/startup-quality-infra
