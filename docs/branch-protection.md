@@ -1,7 +1,7 @@
 # Branch Protection (Temporary Feature Branch)
 
-Branch: feat/startup-quality-infra  
-Mode: Minimal (Require a Pull Request only)
+- 分支：feat/startup-quality-infra
+- 模式：最小（仅需要拉取请求）
 
 Active:
 - Require pull request before merging
