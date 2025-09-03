@@ -1,0 +1,27 @@
+name: Auto Push exit-check.mjs
+
+on:
+  workflow_dispatch:
+
+jobs:
+  push-exit-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Make changes (示例生成/覆盖文件)
+        run: echo '// updated by CI' > exit-check.mjs
+
+      - name: Set git config
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit & Push
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git add exit-check.mjs
+          git commit -m "ci: update exit-check.mjs" || echo "No changes to commit"
+          git push origin HEAD:feat/startup-quality-infra
