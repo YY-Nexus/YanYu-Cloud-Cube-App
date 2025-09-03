@@ -12,24 +12,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Update exit-check.mjs (示例生成/覆盖文件)
         run: echo "// 由 CI 更新" > exit-check.mjs
-
       - name: Set up git config
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
       - name: Stage changes
         run: git add exit-check.mjs
-
       - name: Commit changes
         run: git commit -m "CI: 更新 exit-check.mjs" || echo "没有要提交的更改"
-
       - name: Pull latest changes before push (自动处理远程分支冲突)
         run: git pull origin feat/startup-quality-infra --rebase || echo "首次推送或分支无远程内容"
-
       - name: Push changes
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
