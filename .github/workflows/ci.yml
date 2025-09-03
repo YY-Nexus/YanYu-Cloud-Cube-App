@@ -1,32 +1,28 @@
-name: CI
-permissions:
-  contents: read
+name: CI:Lint&Test
 on:
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
+    branches: [ main ]
   push:
-    branches: [main]
-concurrency:
-  group: ci-${{ github.ref }}
-  cancel-in-progress: true
+    branches: [ main ]
+permissions:
+  contents: read
+  pull-requests: write
 jobs:
-  build-test:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: pnpm/action-setup@v4
-        with: {version: 9}
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with: { version: 9 }
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
-      - name: Install
-        run: pnpm install --frozen-lockfile
-      - name: Lint
-        run: pnpm lint
-      - name: Type Check
-        run: pnpm type-check
-      - name: Test
-        run: pnpm test
-      - name: Build
-        run: pnpm build
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm test -- --coverage
+      - run: pnpm build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage

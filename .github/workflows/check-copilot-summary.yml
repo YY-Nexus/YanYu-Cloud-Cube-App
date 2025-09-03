@@ -1,0 +1,17 @@
+name: Ensure Copilot Summary
+on:
+  pull_request:
+    types: [opened, synchronize]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Copilot Summary Comment
+        run: |
+          comments=$(gh pr view ${{ github.event.pull_request.number }} --json comments -q '.comments[].body' | grep -i "copilot" || true)
+          if [ -z "$comments" ]; then
+            echo "No Copilot summary comment found."
+            exit 1
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

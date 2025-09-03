@@ -1,0 +1,58 @@
+name: Startup Quality Gate
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - feat/startup-quality-infra
+  schedule:
+    - cron: "0 2 * * *"   # 每日 02:00 UTC 夜间基线
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install deps
+        run: |
+            if [ -f pnpm-lock.yaml ]; then
+              corepack enable
+              pnpm install --frozen-lockfile
+            fi
+
+      - name: Run Gate
+        run: |
+          PHASE=$([ "${{ github.event_name }}" = "schedule" ] && echo "baseline" || echo "core")
+          echo "Gate phase: $PHASE"
+          # 如未来为 exit-check 增加 GATE_PHASE 逻辑，可导出
+          export GATE_PHASE=$PHASE
+          node scripts/quality/gate.mjs --config startup-quality-config.yaml > scorecard.json
+
+      - name: Upload Scorecard
+        uses: actions/upload-artifact@v4
+        with:
+          name: scorecard-${{ github.run_id }}
+          path: scorecard.json
+
+      - name: Comment Scorecard (PR only)
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          echo "### Startup Quality Scorecard" > body.md
+          cat scorecard.json >> body.md
+          gh pr comment ${{ github.event.pull_request.number }} -F body.md
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enforce Gate (skip schedule baseline)
+        if: ${{ github.event_name != 'schedule' }}
+        run: node scripts/quality/exit-check.mjs scorecard.json

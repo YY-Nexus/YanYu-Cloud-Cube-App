@@ -18,8 +18,13 @@
     "format": "prettier . --write",
     "release": "standard-version",
     "prepare": "husky install",
-    "fix-conflicts": "bash scripts/auto-resolve-conflicts.sh",
-    "fix-pnpm-conflicts": "bash scripts/auto-resolve-conflicts.sh pnpm-lock.yaml"
+
+    "quality:gate": "node scripts/quality/gate.mjs --config startup-quality-config.yaml > scorecard.json",
+    "quality:check": "if [ ! -f scorecard.json ]; then echo 'scorecard.json not found. Run pnpm quality:gate first.' && exit 1; fi; node scripts/quality/exit-check.mjs scorecard.json",
+    "quality:run": "pnpm quality:gate && pnpm quality:check",
+    "quality:gate:local": "mkdir -p metrics/runs && TS=$(date +%Y%m%d-%H%M%S) && node scripts/quality/gate.mjs --config startup-quality-config.yaml | tee metrics/runs/scorecard-$TS.json > scorecard.json",
+    "quality:baseline": "mkdir -p metrics/baseline && TS=$(date +%Y%m%d) && node scripts/quality/gate.mjs --config startup-quality-config.yaml > metrics/baseline/scorecard-$TS.json",
+    "quality:debug": "METRIC_STARTUP_SUCCESS_RATE=99.9 node scripts/quality/gate.mjs --config startup-quality-config.yaml"
   },
   "dependencies": {
     "next": "^15.5.2",
@@ -37,6 +42,7 @@
     "standard-version": "^9.5.0",
     "turbo": "^2.0.0",
     "typescript": "^5.9.2",
-    "vitest": "^3.2.4"
+    "vitest": "^1.6.0",
+    "yaml": "^2.4.5"
   }
 }

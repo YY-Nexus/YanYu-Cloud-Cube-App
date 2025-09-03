@@ -1,0 +1,12 @@
+quality:
+  - 'startup-quality-config.yaml'
+  - '.github/workflows/startup-quality-gate.yml'
+performance:
+  - 'src/**/performance/**'
+config:
+  - 'config/**'
+dependency:
+  - 'package.json'
+  - 'pnpm-lock.yaml'
+observability:
+  - 'src/**/logging/**'
