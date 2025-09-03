@@ -18,6 +18,10 @@ dist/
 build/
 *.egg-info/
 
+# 测试覆盖率报告
+coverage/
+*.lcov
+
 # IDE 和编辑器
 .vscode/
 .vscode/settings.json
