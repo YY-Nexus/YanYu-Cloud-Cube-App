@@ -10,28 +10,27 @@ jobs:
   push-exit-check:
     runs-on: ubuntu-latest
     steps:
-      - name: 结帐代码
+      - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: 设置 git 配置
+      - name: Update exit-check.mjs (示例生成/覆盖文件)
+        run: echo "// 由 CI 更新" > exit-check.mjs
+
+      - name: Set up git config
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin https://github.com/YY-Nexus/YanYu-Cloud-Cube-App.git
 
-      - name: 进行更改（示例生成/覆盖文件）
-        run: echo "// 由 CI 更新" > exit-check.mjs
+      - name: Stage changes
+        run: git add exit-check.mjs
 
-      - name: 提交和推送（自动处理远程分支冲突和首次推送）
-        run: |
-          git add exit-check.mjs
-          git commit -m "CI: 更新 exit-check.mjs" || echo "没有要提交的更改"
-          git fetch origin
-          # 如果分支已存在则拉取并 rebase，否则跳过
-          git branch --list -r | grep "origin/feat/startup-quality-infra" \
-            && git pull origin feat/startup-quality-infra --rebase \
-            || echo "首次推送或分支无远程内容"
-          # 推送到远程分支，不存在则自动创建
-          git push origin HEAD:feat/startup-quality-infra || git push --set-upstream origin feat/startup-quality-infra
+      - name: Commit changes
+        run: git commit -m "CI: 更新 exit-check.mjs" || echo "没有要提交的更改"
+
+      - name: Pull latest changes before push (自动处理远程分支冲突)
+        run: git pull origin feat/startup-quality-infra --rebase || echo "首次推送或分支无远程内容"
+
+      - name: Push changes
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: git push origin HEAD:feat/startup-quality-infra
