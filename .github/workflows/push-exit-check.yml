@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Update exit-check.mjs (示例生成/覆盖文件)
         run: echo "// 由 CI 更新" > exit-check.mjs
       - name: Set up git config
