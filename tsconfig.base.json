@@ -2,16 +2,18 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "ESNext",
-    "lib": ["DOM", "ES2022"],
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
     "strict": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
+    "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
       "@ui/*": ["packages/ui/src/*"],
@@ -19,5 +21,6 @@
       "@utils/*": ["packages/utils/src/*"]
     }
   },
-  "include": ["packages", "apps"]
+  "include": ["packages", "apps"],
+  "exclude": ["node_modules", "dist", ".next", "build"]
 }
