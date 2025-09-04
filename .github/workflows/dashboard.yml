@@ -1,0 +1,135 @@
+name: Workflow Status Dashboard
+
+on:
+  workflow_run:
+    workflows: ['CI', 'Auto Review & Quality Gate', 'Auto Fix Lint / Format / Conflicts']
+    types: [completed]
+  schedule:
+    - cron: '0 */6 * * *' # Every 6 hours
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  update-dashboard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Generate workflow status dashboard
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            // Get recent workflow runs
+            const { data: workflows } = await github.rest.actions.listWorkflowRuns({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 50
+            });
+
+            // Group by workflow name
+            const workflowStats = {};
+            workflows.workflow_runs.forEach(run => {
+              if (!workflowStats[run.name]) {
+                workflowStats[run.name] = {
+                  total: 0,
+                  success: 0,
+                  failure: 0,
+                  latest: null
+                };
+              }
+              
+              workflowStats[run.name].total++;
+              if (run.conclusion === 'success') {
+                workflowStats[run.name].success++;
+              } else if (run.conclusion === 'failure') {
+                workflowStats[run.name].failure++;
+              }
+              
+              if (!workflowStats[run.name].latest || new Date(run.created_at) > new Date(workflowStats[run.name].latest.created_at)) {
+                workflowStats[run.name].latest = run;
+              }
+            });
+
+            // Generate dashboard markdown
+            const now = new Date().toISOString();
+            let dashboard = `# 🚀 CI/CD Automation Dashboard\n\n`;
+            dashboard += `> Last updated: ${now}\n\n`;
+
+            dashboard += `## 🎯 System Status\n\n`;
+            dashboard += `| Workflow | Status | Success Rate | Last Run |\n`;
+            dashboard += `|----------|--------|--------------|----------|\n`;
+
+            Object.entries(workflowStats).forEach(([name, stats]) => {
+              const successRate = stats.total > 0 ? ((stats.success / stats.total) * 100).toFixed(1) : '0';
+              const status = stats.latest ? 
+                (stats.latest.conclusion === 'success' ? '✅' : 
+                 stats.latest.conclusion === 'failure' ? '❌' : '⏳') : '⚪';
+              const lastRun = stats.latest ? 
+                new Date(stats.latest.created_at).toLocaleDateString() : 'Never';
+              
+              dashboard += `| ${name} | ${status} | ${successRate}% | ${lastRun} |\n`;
+            });
+
+            dashboard += `\n## 🛠️ Available Commands\n\n`;
+            dashboard += `### PR Commands\n`;
+            dashboard += `- \`/autofix\` - Auto-fix lint, format, and conflicts\n`;
+            dashboard += `- \`/fix-conflicts\` - Resolve merge conflicts automatically\n\n`;
+
+            dashboard += `### Local Commands\n`;
+            dashboard += `\`\`\`bash\n`;
+            dashboard += `pnpm fix-conflicts      # Resolve conflicts\n`;
+            dashboard += `pnpm fix-pnpm-conflicts # Fix pnpm-lock.yaml conflicts\n`;
+            dashboard += `pnpm lint:fix           # Auto-fix linting issues\n`;
+            dashboard += `pnpm format             # Format code\n`;
+            dashboard += `\`\`\`\n\n`;
+
+            dashboard += `## 📊 Automation Features\n\n`;
+            dashboard += `- ✅ **Conflict Resolution**: Automatic merge conflict detection and resolution\n`;
+            dashboard += `- ✅ **Quality Gates**: Automated lint, test, and build checks\n`;
+            dashboard += `- ✅ **Auto Review**: Intelligent PR review and approval\n`;
+            dashboard += `- ✅ **Smart Merge**: Conditional automatic merging\n`;
+            dashboard += `- ✅ **Branch Protection**: Automated branch protection rules\n`;
+            dashboard += `- ✅ **Interactive Commands**: PR comment-based automation\n\n`;
+
+            dashboard += `## 📈 Recent Activity\n\n`;
+            const recentRuns = workflows.workflow_runs
+              .slice(0, 10)
+              .map(run => {
+                const status = run.conclusion === 'success' ? '✅' : 
+                             run.conclusion === 'failure' ? '❌' : '⏳';
+                const date = new Date(run.created_at).toLocaleDateString();
+                return `- ${status} **${run.name}** - ${date}`;
+              })
+              .join('\n');
+
+            dashboard += recentRuns + '\n\n';
+
+            dashboard += `## 📚 Documentation\n\n`;
+            dashboard += `- [🔧 Automation Guide](./docs/automation-guide.md)\n`;
+            dashboard += `- [🚀 CI/CD Details](./docs/ci-cd.md)\n`;
+            dashboard += `- [⚡ Conflict Resolution](./docs/conflict-resolution.md)\n\n`;
+
+            dashboard += `---\n`;
+            dashboard += `*This dashboard is automatically updated by GitHub Actions*`;
+
+            // Write to file
+            fs.writeFileSync('AUTOMATION-STATUS.md', dashboard);
+
+            console.log('Dashboard updated successfully');
+
+      - name: Commit dashboard updates
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if [ -n "$(git status --porcelain)" ]; then
+            git add AUTOMATION-STATUS.md
+            git commit -m "chore: update automation dashboard [skip ci]"
+            git push
+          else
+            echo "No dashboard changes to commit"
+          fi

@@ -1,0 +1,194 @@
+name: Auto Review & Quality Gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  pull-requests: write
+  checks: read
+
+jobs:
+  auto-conflict-resolution:
+    if: |
+      github.event_name == 'issue_comment' && 
+      github.event.issue.pull_request &&
+      contains(github.event.comment.body, '/fix-conflicts')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      - name: Get PR branch
+        run: |
+          PR_NUMBER=${{ github.event.issue.number }}
+          BRANCH=$(gh pr view $PR_NUMBER --json headRefName --jq '.headRefName')
+          echo "BRANCH=$BRANCH" >> $GITHUB_ENV
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout PR branch
+        run: |
+          git fetch origin ${{ env.BRANCH }}
+          git checkout ${{ env.BRANCH }}
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Run conflict resolution
+        run: |
+          # Run conflict resolution scripts
+          if [ -f "scripts/auto-resolve-conflicts.sh" ]; then
+            bash scripts/auto-resolve-conflicts.sh pnpm-lock.yaml || true
+            bash scripts/auto-resolve-conflicts.sh || true
+          fi
+
+          # If there are changes, commit them
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit -m "chore: auto-resolve conflicts via /fix-conflicts command"
+            git push origin ${{ env.BRANCH }}
+            
+            # Comment on PR
+            gh pr comment ${{ github.event.issue.number }} --body "🤖 Conflicts have been automatically resolved. Please review the changes."
+          else
+            gh pr comment ${{ github.event.issue.number }} --body "✅ No conflicts found or conflicts already resolved."
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  quality-gate:
+    if: github.event_name == 'pull_request' && github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+        with: { version: 9 }
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Quality checks
+        id: quality
+        run: |
+          echo "Starting quality gate checks..."
+
+          # Lint check
+          if pnpm lint; then
+            echo "✅ Lint: PASSED"
+            echo "lint_status=✅ PASSED" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Lint: FAILED"
+            echo "lint_status=❌ FAILED" >> $GITHUB_OUTPUT
+          fi
+
+          # Test check
+          if pnpm test; then
+            echo "✅ Tests: PASSED"
+            echo "test_status=✅ PASSED" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Tests: FAILED"
+            echo "test_status=❌ FAILED" >> $GITHUB_OUTPUT
+          fi
+
+          # Build check
+          if pnpm build; then
+            echo "✅ Build: PASSED"
+            echo "build_status=✅ PASSED" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Build: FAILED"
+            echo "build_status=❌ FAILED" >> $GITHUB_OUTPUT
+          fi
+
+          # Type check (informational only)
+          if pnpm type-check; then
+            echo "✅ Types: PASSED"
+            echo "type_status=✅ PASSED" >> $GITHUB_OUTPUT
+          else
+            echo "⚠️ Types: ISSUES (non-blocking)"
+            echo "type_status=⚠️ ISSUES (non-blocking)" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Update PR with quality gate results
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number
+            });
+
+            const botComment = comments.find(comment => 
+              comment.user.type === 'Bot' && 
+              comment.body.includes('🚦 Quality Gate Report')
+            );
+
+            const body = `🚦 **Quality Gate Report**
+
+            | Check | Status |
+            |-------|--------|
+            | 🧹 Lint | ${{ steps.quality.outputs.lint_status }} |
+            | 🧪 Tests | ${{ steps.quality.outputs.test_status }} |
+            | 🏗️ Build | ${{ steps.quality.outputs.build_status }} |
+            | 📝 Types | ${{ steps.quality.outputs.type_status }} |
+
+            > **Commands available:**
+            > - Comment \`/fix-conflicts\` to auto-resolve merge conflicts
+            > - Comment \`/autofix\` to auto-fix lint/format issues
+
+            _Last updated: ${new Date().toISOString()}_`;
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }
+
+  auto-approve-minor:
+    if: |
+      github.event_name == 'pull_request' && 
+      github.event.action == 'opened' &&
+      (
+        startsWith(github.head_ref, 'dependabot/') ||
+        startsWith(github.head_ref, 'renovate/') ||
+        startsWith(github.head_ref, 'chore/autofix') ||
+        contains(github.event.pull_request.title, 'chore:') ||
+        contains(github.event.pull_request.title, 'docs:')
+      )
+    runs-on: ubuntu-latest
+    needs: [quality-gate]
+    steps:
+      - name: Auto-approve minor changes
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.pulls.createReview({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+              event: 'APPROVE',
+              body: '🤖 Auto-approved: This appears to be a minor change (dependency update, chore, or documentation)'
+            });
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: '✅ This PR has been auto-approved as it appears to be a minor change. It can be merged once all quality gates pass.'
+            });
