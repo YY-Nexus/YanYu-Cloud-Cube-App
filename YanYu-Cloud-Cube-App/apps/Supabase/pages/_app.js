@@ -14,7 +14,7 @@ export default function SupabaseSlackClone({ Component, pageProps }) {
   useEffect(() => {
     function saveSession(
       /** @type {Awaited<ReturnType<typeof supabase.auth.getSession>>['data']['session']} */
-      session
+      session,
     ) {
       setSession(session)
       const currentUser = session?.user
@@ -35,7 +35,7 @@ export default function SupabaseSlackClone({ Component, pageProps }) {
       async (event, session) => {
         console.log(session)
         saveSession(session)
-      }
+      },
     )
 
     return () => {

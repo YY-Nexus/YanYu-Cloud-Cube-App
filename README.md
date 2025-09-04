@@ -2,6 +2,22 @@
 
 基于 Vercel 部署的前端应用，集成可复用 CI/CD、代码质量、自动修复与错误监控。
 
+[![CI](https://github.com/YY-Nexus/YanYu-Cloud-Cube-App/actions/workflows/reusable-ci.yml/badge.svg)](https://github.com/YY-Nexus/YanYu-Cloud-Cube-App/actions/workflows/reusable-ci.yml)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-15.x-black?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![Tested with Vitest](https://img.shields.io/badge/tested%20with-vitest-729B1B?style=flat-square&logo=vitest)](https://vitest.dev/)
+
+## 🚀 项目状态
+
+- ✅ **Next.js 15.x LTS** - 已升级到最新稳定版本
+- ✅ **TypeScript** - 全面启用类型安全
+- ✅ **ESLint + Prettier** - 代码质量与格式化配置完整
+- ✅ **Husky + lint-staged** - Git hooks 自动化检查
+- ✅ **Vitest** - 现代测试框架，支持 TypeScript 和 JSX
+- ✅ **标准 CI/CD** - GitHub Actions 工作流完整
+- ✅ **环境变量规范** - .env.example 模板文件
+- ✅ **分支保护** - 已配置质量门槛和状态检查
+
 ## 快速开始
 
 ```bash
