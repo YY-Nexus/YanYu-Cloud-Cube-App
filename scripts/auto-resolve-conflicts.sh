@@ -1,96 +1,153 @@
 #!/usr/bin/env bash
-# filepath: scripts/auto-resolve-conflicts.sh
+#
+# 自动合并脚本：删除冲突块的上半部分 (<<<<<<< 与 ======= 之间的内容)，保留下半部分
+# 即：保留“下方版本” (通常是当前合并进来的分支内容)
+#
+# Automatic merge helper:
+# For every Git conflict block:
+#   <<<<<<< HEAD (or branch A)
+#       (UPPER PART)   <-- will be discarded
+#   =======
+#       (LOWER PART)   <-- will be KEPT
+#   >>>>>>> other
+#
+# 使用场景：你确定要统一采用冲突中“下半部分”版本时。
+#
 
-# 通用的自动冲突解决脚本，在冲突内容中自动删除上半部分，保留下半部分
+set -euo pipefail
 
-show_usage() {
-  echo "用法: $0 <文件路径>"
-  echo "自动解决 Git 合并冲突，删除冲突内容的上半部分，保留下半部分"
-  echo ""
-  echo "参数:"
-  echo "  文件路径    要处理的包含冲突标记的文件"
-  echo ""
-  echo "示例:"
-  echo "  $0 pnpm-lock.yaml"
-  echo "  $0 package.json"
-  echo "  $0 src/config.ts"
+usage() {
+  cat <<'EOF'
+用法:
+  auto-resolve-conflicts.sh <文件1> [文件2 ...]
+说明:
+  解析文件中的 Git 合并冲突块，自动删除上半部分，保留下半部分内容。
+
+示例:
+  ./scripts/auto-resolve-conflicts.sh pnpm-lock.yaml
+  ./scripts/auto-resolve-conflicts.sh package.json src/config.ts
+
+可选环境变量:
+  DRY_RUN=1   只输出将生成的结果，不覆盖原文件
+  NO_BACKUP=1 不生成 .bak 备份文件
+
+退出码:
+  0 成功 (即使没有发现冲突也算成功)
+  1 发生错误 (文件不存在 / 处理失败)
+
+EOF
 }
 
 if [ $# -eq 0 ]; then
-  show_usage
+  usage
   exit 1
 fi
 
-TARGET_FILE="$1"
+# 处理单个文件
+process_file() {
+  local file="$1"
 
-if [ ! -f "$TARGET_FILE" ]; then
-  echo "错误: 未找到文件 $TARGET_FILE"
-  exit 1
+  if [ ! -f "$file" ]; then
+    echo "❌ 跳过：未找到文件 $file" >&2
+    return 1
+  fi
+
+  if ! grep -q "^<<<<<<< " "$file" 2>/dev/null; then
+    echo "ℹ️  文件 $file 中未发现冲突标记 (<<<<<<<)，跳过。"
+    return 0
+  fi
+
+  local backup=
+  if [ "${NO_BACKUP:-0}" != "1" ]; then
+    backup="$file.bak.$(date +%Y%m%d_%H%M%S)"
+    cp "$file" "$backup"
+    echo "🗂  已创建备份: $backup"
+  else
+    echo "⚠️  未创建备份 (NO_BACKUP=1)"
+  fi
+
+  local temp
+  temp=$(mktemp)
+
+  # awk 逻辑：
+  # 进入冲突后先丢弃上半部分 (skip_upper=1)，遇到 ======= 后开始输出 (skip_upper=0)，
+  # 遇到 >>>>>>> 结束。
+  awk '
+    BEGIN {
+      in_conflict = 0
+      skip_upper = 0
+      conflict_blocks = 0
+      malformed_blocks = 0
+    }
+    /^<<<<<<< / {
+      in_conflict = 1
+      skip_upper = 1
+      conflict_blocks++
+      next
+    }
+    /^=======/ {
+      if (in_conflict) {
+        skip_upper = 0
+        next
+      }
+    }
+    /^>>>>>>> / {
+      if (in_conflict) {
+        in_conflict = 0
+        skip_upper = 0
+        next
+      }
+    }
+    {
+      if (!in_conflict || (in_conflict && !skip_upper)) {
+        print
+      }
+    }
+    END {
+      if (conflict_blocks > 0) {
+        print "处理了 " conflict_blocks " 个冲突块 (保留下半部分)" > "/dev/stderr"
+      } else {
+        print "未检测到冲突块" > "/dev/stderr"
+      }
+    }
+  ' "$file" > "$temp"
+
+  if [ "${DRY_RUN:-0}" = "1" ]; then
+    echo "🔍 DRY_RUN=1 展示 $file 处理后的内容："
+    echo "----- BEGIN ($file) -----"
+    cat "$temp"
+    echo "----- END ($file) -----"
+    rm -f "$temp"
+  else
+    mv "$temp" "$file"
+    echo "✅ 已处理: $file (已删除冲突上半部分，保留下半部分)"
+  fi
+
+  # 提示后续动作
+  if [[ "$file" == *"pnpm-lock.yaml"* ]]; then
+    echo "💡 建议: 运行 pnpm install 以确保锁文件一致性"
+  fi
+  if [[ "$file" == *"package.json"* ]]; then
+    echo "💡 建议: 检查依赖并运行 pnpm install / npm install"
+  fi
+}
+
+overall_status=0
+for f in "$@"; do
+  if ! process_file "$f"; then
+    overall_status=1
+  fi
+  echo ""
+done
+
+if [ "${DRY_RUN:-0}" = "1" ]; then
+  echo "ℹ️  DRY_RUN 模式未修改任何文件。"
 fi
 
-# 检查是否存在冲突标记
-if ! grep -q "^<<<<<<< \|^======= \|^>>>>>>> " "$TARGET_FILE"; then
-  echo "$TARGET_FILE 中未发现冲突标记，无需处理。"
-  exit 0
-fi
-
-# 备份原文件
-BACKUP_FILE="$TARGET_FILE.bak.$(date +%Y%m%d_%H%M%S)"
-cp "$TARGET_FILE" "$BACKUP_FILE"
-
-# 创建临时文件
-TEMP_FILE=$(mktemp)
-
-# 智能处理冲突：删除上半部分，保留下半部分
-awk '
-BEGIN { 
-  in_conflict = 0
-  skip_upper = 0
-  conflict_count = 0
-}
-/^<<<<<<< / { 
-  in_conflict = 1
-  skip_upper = 1
-  conflict_count++
-  next 
-}
-/^=======/ { 
-  if (in_conflict) {
-    skip_upper = 0
-  }
-  next 
-}
-/^>>>>>>> / { 
-  in_conflict = 0
-  skip_upper = 0
-  next 
-}
-{
-  if (!skip_upper) {
-    print
-  }
-}
-END {
-  if (conflict_count > 0) {
-    print "# 处理了", conflict_count, "个冲突块" > "/dev/stderr"
-  }
-}
-' "$TARGET_FILE" > "$TEMP_FILE"
-
-# 替换原文件
-mv "$TEMP_FILE" "$TARGET_FILE"
-
-echo "✅ 已自动解决 $TARGET_FILE 中的冲突"
-echo "📝 删除了冲突内容的上半部分，保留了下半部分"
-echo "💾 原文件已备份为 $BACKUP_FILE"
-echo ""
-echo "建议后续操作:"
-if [[ "$TARGET_FILE" == *"pnpm-lock.yaml"* ]]; then
-  echo "  - 执行 pnpm install 重新整理依赖关系"
-elif [[ "$TARGET_FILE" == *"package.json"* ]]; then
-  echo "  - 检查依赖配置是否正确"
-  echo "  - 执行 npm install 或 pnpm install"
+if [ $overall_status -eq 0 ]; then
+  echo "🎉 所有文件处理完成。"
 else
-  echo "  - 检查文件内容是否符合预期"
-  echo "  - 运行相关测试确保功能正常"
+  echo "⚠️ 部分文件处理失败，请查看上方输出。" >&2
 fi
+
+exit $overall_status
