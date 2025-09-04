@@ -49,6 +49,9 @@ logs/
 *.env*
 *.local
 
+# 允许示例环境文件
+!.env.example
+
 # 临时文件
 tmp/
 temp/
