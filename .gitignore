@@ -46,7 +46,8 @@ logs/
 .env.development.local
 .env.test.local
 .env.production.local
-*.env*
+# Allow .env.example files
+!.env.example
 *.local
 
 # 临时文件
