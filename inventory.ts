@@ -1,5 +1,5 @@
 import { execSync } from 'node:child_process'
-import { existsSync, readFileSync, writeFileSync, statSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { mkdirSync } from 'node:fs'
 import path from 'node:path'
 
@@ -55,9 +55,17 @@ for (const repo of raw) {
   const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'))
   const deps = { ...pkg.dependencies, ...pkg.devDependencies }
   const nextVersion = deps.next || ''
-  const ts = existsSync(path.join(dir, 'tsconfig.json')) || existsSync(path.join(dir, 'tsconfig.base.json'))
-  const eslintConfigured = ['.eslintrc.js', '.eslintrc.cjs', '.eslintrc.json', '.eslintrc'].some(f => existsSync(path.join(dir, f)))
-  const prettierConfigured = ['.prettierrc', '.prettierrc.js', '.prettierrc.cjs', '.prettierrc.json'].some(f => existsSync(path.join(dir, f)))
+  const ts =
+    existsSync(path.join(dir, 'tsconfig.json')) || existsSync(path.join(dir, 'tsconfig.base.json'))
+  const eslintConfigured = ['.eslintrc.js', '.eslintrc.cjs', '.eslintrc.json', '.eslintrc'].some(
+    (f) => existsSync(path.join(dir, f)),
+  )
+  const prettierConfigured = [
+    '.prettierrc',
+    '.prettierrc.js',
+    '.prettierrc.cjs',
+    '.prettierrc.json',
+  ].some((f) => existsSync(path.join(dir, f)))
   const hasAppDir = existsSync(path.join(dir, 'app'))
   const hasPagesDir = existsSync(path.join(dir, 'pages'))
   const testFramework = deps.vitest ? 'vitest' : deps.jest ? 'jest' : ''
@@ -73,7 +81,9 @@ for (const repo of raw) {
   try {
     const sizeStr = execSync(`du -sm ${dir} | cut -f1`).toString().trim()
     sizeMB = Number(sizeStr)
-  } catch {}
+  } catch {
+    // Ignore size calculation errors
+  }
   out.push({
     repo: repo.name,
     nextVersion,
@@ -88,7 +98,7 @@ for (const repo of raw) {
     packageManager: pm,
     sizeMB,
     duplicationCandidate: /demo|test|model|example|model/i.test(repo.name),
-    recommendedAction: ''
+    recommendedAction: '',
   })
 }
 
