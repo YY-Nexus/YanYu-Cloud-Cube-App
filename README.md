@@ -12,6 +12,8 @@ pnpm dev
 ## 开发工具
 
 - **冲突解决**: 使用 `pnpm fix-conflicts` 自动解决 Git 冲突
+- **包依赖冲突**: 使用 `pnpm fix-package-conflicts` 智能解决 package.json 冲突
+- **专用 pnpm 冲突**: 使用 `pnpm fix-pnpm-conflicts` 专门解决 pnpm-lock.yaml 冲突
 - **代码检查**: 使用 `pnpm lint` 进行代码质量检查
 - **类型检查**: 使用 `pnpm type-check` 进行 TypeScript 验证
 - **测试**: 使用 `pnpm test` 运行测试
@@ -19,7 +21,18 @@ pnpm dev
 ### 冲突解决脚本
 
 - `pnpm fix-conflicts` - 自动解决任意文件中的冲突
+- `pnpm fix-package-conflicts` - 智能解决 package.json 冲突，支持依赖合并
 - `pnpm fix-pnpm-conflicts` - 专门解决 pnpm-lock.yaml 冲突
+
+### 自动化冲突解决工作流
+
+本项目包含 GitHub Actions 工作流，可以自动检测和解决 PR 中的依赖冲突：
+
+- 在 PR 描述中包含 `[auto-resolve]` 可触发自动冲突解决
+- 自动检测 `pnpm-lock.yaml` 和 `package.json` 中的冲突
+- 智能合并依赖关系，优先保留 HEAD 分支的配置
+- 自动运行代码检查和格式化
+- 提交解决后的更改并在 PR 中添加说明评论
 
 详细的冲突解决文档请参见 [docs/conflict-resolution.md](docs/conflict-resolution.md)
 

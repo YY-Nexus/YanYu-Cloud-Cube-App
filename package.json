@@ -1,6 +1,7 @@
 {
   "name": "yan-yu-cloud-cube-app",
   "private": true,
+  "type": "module",
   "packageManager": "pnpm@9.0.0",
   "workspaces": [
     "apps/*",
@@ -19,7 +20,8 @@
     "release": "standard-version",
     "prepare": "husky install",
     "fix-conflicts": "bash scripts/auto-resolve-conflicts.sh",
-    "fix-pnpm-conflicts": "bash scripts/auto-resolve-conflicts.sh pnpm-lock.yaml"
+    "fix-pnpm-conflicts": "bash scripts/auto-resolve-conflicts.sh pnpm-lock.yaml",
+    "fix-package-conflicts": "bash scripts/auto-resolve-package-conflicts.sh"
   },
   "dependencies": {
     "next": "^15.5.2",

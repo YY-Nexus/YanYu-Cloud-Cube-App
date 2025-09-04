@@ -6,23 +6,54 @@
 
 set -e
 
+# 颜色输出支持
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# 日志函数
+log_info() {
+    echo -e "${BLUE}[INFO]${NC} $1"
+}
+
+log_success() {
+    echo -e "${GREEN}[SUCCESS]${NC} $1"
+}
+
+log_warning() {
+    echo -e "${YELLOW}[WARNING]${NC} $1"
+}
+
+log_error() {
+    echo -e "${RED}[ERROR]${NC} $1"
+}
+
 # 默认处理 pnpm-lock.yaml，但可以接受其他文件作为参数
 TARGET_FILE="${1:-pnpm-lock.yaml}"
 
 if [ ! -f "$TARGET_FILE" ]; then
-  echo "错误：未找到文件 $TARGET_FILE"
-  echo "Error: File $TARGET_FILE not found"
+  log_error "未找到文件 $TARGET_FILE"
+  log_error "File $TARGET_FILE not found"
   exit 1
 fi
 
-echo "开始处理冲突文件: $TARGET_FILE"
-echo "Processing conflict file: $TARGET_FILE"
+log_info "开始处理冲突文件: $TARGET_FILE"
+log_info "Processing conflict file: $TARGET_FILE"
+
+# 检查文件是否有冲突标记
+if ! grep -q "<<<<<<< \|>>>>>>> \|=======" "$TARGET_FILE"; then
+    log_success "文件中未发现冲突标记，无需处理"
+    log_success "No conflict markers found in file, no processing needed"
+    exit 0
+fi
 
 # 备份原文件
 BACKUP_FILE="$TARGET_FILE.conflict-backup-$(date +%Y%m%d_%H%M%S)"
 cp "$TARGET_FILE" "$BACKUP_FILE"
-echo "已创建备份: $BACKUP_FILE"
-echo "Backup created: $BACKUP_FILE"
+log_success "已创建备份: $BACKUP_FILE"
+log_success "Backup created: $BACKUP_FILE"
 
 # 创建临时文件来处理内容
 TEMP_FILE=$(mktemp)
@@ -160,11 +191,11 @@ EOF
 if [ $? -eq 0 ] && [ -f "$TEMP_FILE" ]; then
     # 将处理后的内容替换原文件
     mv "$TEMP_FILE" "$TARGET_FILE"
-    echo "冲突解决完成！"
-    echo "Conflict resolution completed!"
+    log_success "冲突解决完成！"
+    log_success "Conflict resolution completed!"
     echo ""
-    echo "建议后续操作:"
-    echo "Recommended next steps:"
+    log_info "建议后续操作:"
+    log_info "Recommended next steps:"
     if [ "$TARGET_FILE" = "pnpm-lock.yaml" ]; then
         echo "1. 执行 pnpm install 重新整理依赖关系"
         echo "   Run: pnpm install to reorganize dependencies"
@@ -174,7 +205,7 @@ if [ $? -eq 0 ] && [ -f "$TEMP_FILE" ]; then
     echo "3. 提交更改"
     echo "   Commit the changes"
 else
-    echo "错误：冲突解决失败"
-    echo "Error: Conflict resolution failed"
+    log_error "冲突解决失败"
+    log_error "Conflict resolution failed"
     exit 1
 fi
