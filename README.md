@@ -5,7 +5,7 @@
 ![Next.js](https://img.shields.io/badge/Next.js-15.x-black.svg)
 ![Testing](https://img.shields.io/badge/Testing-Vitest-green.svg)
 
-基于 Vercel 部署的前端应用，集成可复用 CI/CD、代码质量、自动修复与错误监控。
+基于副驾智能运维迭代部署前端应用，集成可复用 CI/CD、代码质量、自动修复与错误监控。
 
 ## 🚀 项目状态
 
