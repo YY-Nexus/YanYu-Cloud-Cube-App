@@ -1,6 +1,30 @@
 # YanYu Cloud Cube App
 
+![CI Status](https://github.com/YY-Nexus/YanYu-Cloud-Cube-App/workflows/CI/badge.svg)
+![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)
+![Next.js](https://img.shields.io/badge/Next.js-15.x-black.svg)
+![Testing](https://img.shields.io/badge/Testing-Vitest-green.svg)
+
 基于 Vercel 部署的前端应用，集成可复用 CI/CD、代码质量、自动修复与错误监控。
+
+## 🚀 项目状态
+
+### 标准化治理进度
+
+- ✅ **Next.js 15.x LTS** - 已升级至最新版本
+- ✅ **TypeScript** - 已启用，配置完善
+- ✅ **ESLint + Prettier** - 代码质量工具已配置
+- ✅ **Husky** - Git hooks 已设置
+- ✅ **Vitest** - 测试框架已就绪
+- ✅ **CI/CD** - 标准化工作流已实施
+- ✅ **环境变量** - .env.example 已标准化
+- 🔄 **分支保护** - 需要验证和完善
+
+### 质量指标
+
+- **Lint 警告**: 9 个 (主要是 TypeScript any 类型)
+- **测试覆盖率**: 基础测试已配置
+- **依赖安全**: 通过 Renovate 自动更新
 
 ## 快速开始
 
