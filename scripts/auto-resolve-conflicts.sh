@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # filepath: scripts/auto-resolve-conflicts.sh
 
-# 自动解决冲突，在冲突内容中，自动删除出图内容的上半部分
+# 自动解决冲突，在冲突内容中，自动删除冲突内容的上半部分
 # Auto-resolve conflicts by automatically removing the upper part of conflicting content
 
 # Don't exit on errors, handle them gracefully
