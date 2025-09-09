@@ -81,7 +81,7 @@ resolve_conflicts_in_file() {
     mv "$temp_file" "$file"
 
     # 统计解决的冲突数量
-    local conflicts_resolved=$(grep -c "<<<<<<< \|======= \|>>>>>>> " "$file.conflict-backup" 2>/dev/null || echo 0)
+    local conflicts_resolved=$(grep -Ec '^<<<<<<<|^=======|^>>>>>>>' "$file.conflict-backup" 2>/dev/null || echo 0)
     conflicts_resolved=$((conflicts_resolved / 3))
 
     echo "✓ 已自动解决 $conflicts_resolved 个冲突，保留了传入的更改。"
