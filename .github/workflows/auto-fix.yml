@@ -3,7 +3,7 @@ name: Auto Fix Lint / Format
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 3 * * 1"  # 每周一固定跑
+    - cron: '0 3 * * 1' # 每周一固定跑
   issue_comment:
     types: [created]
 
@@ -17,9 +17,9 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v4
-        with: {version: 9}
+        with: { version: 9 }
       - uses: actions/setup-node@v4
-        with: {node-version: 20, cache: 'pnpm'}
+        with: { node-version: 20, cache: 'pnpm' }
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint:fix && pnpm format || true
       - name: Create PR if changes
