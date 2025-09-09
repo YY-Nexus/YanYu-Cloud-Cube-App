@@ -3,9 +3,11 @@ import { resolve } from 'path'
 
 export default defineConfig({
   test: {
+    environment: 'node', // 或 'jsdom'，根据需求
     globals: true,
-    environment: 'jsdom',
-    setupFiles: ['./test/setup.ts'],
+    setupFiles: ['./test/setup.ts'], // 如果需要
+    include: ['**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    exclude: ['**/node_modules/**', '**/dist/**', '**/.next/**', '**/build/**'],
   },
   resolve: {
     alias: {
