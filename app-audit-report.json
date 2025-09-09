@@ -1,0 +1,352 @@
+{
+  "timestamp": "2025-09-09T01:43:12.400Z",
+  "summary": {
+    "totalApps": 4,
+    "fullyStandardized": 4,
+    "needsWork": 0,
+    "critical": 0
+  },
+  "apps": [
+    {
+      "name": "web",
+      "path": "/home/runner/work/YanYu-Cloud-Cube-App/YanYu-Cloud-Cube-App/apps/web",
+      "hasPackageJson": true,
+      "usesTypeScript": true,
+      "hasAppDir": true,
+      "pageRouterOnly": false,
+      "eslintConfigured": true,
+      "prettierConfigured": true,
+      "testFramework": "vitest",
+      "hasCI": true,
+      "sizeMB": 85,
+      "missingFeatures": [],
+      "recommendations": [],
+      "priority": "low",
+      "standardizationScore": 100,
+      "packageInfo": {
+        "name": "@yanyu-cloud-cube/web",
+        "version": "1.0.0",
+        "type": "module",
+        "description": "YanYu Cloud Cube - Main Web Application",
+        "private": true,
+        "scripts": {
+          "dev": "next dev --port 3000",
+          "build": "next build",
+          "start": "next start --port 3000",
+          "lint": "next lint",
+          "type-check": "tsc --noEmit",
+          "test": "vitest",
+          "test:watch": "vitest --watch",
+          "clean": "rm -rf .next node_modules"
+        },
+        "dependencies": {
+          "@radix-ui/react-avatar": "^1.1.1",
+          "@radix-ui/react-dialog": "^1.1.2",
+          "@radix-ui/react-dropdown-menu": "^2.1.2",
+          "@radix-ui/react-icons": "^1.3.2",
+          "@radix-ui/react-label": "^2.1.0",
+          "@radix-ui/react-navigation-menu": "^1.2.1",
+          "@radix-ui/react-select": "^2.1.2",
+          "@radix-ui/react-separator": "^1.1.0",
+          "@radix-ui/react-slot": "^1.1.0",
+          "@radix-ui/react-tabs": "^1.1.1",
+          "@radix-ui/react-toast": "^1.2.2",
+          "@vercel/analytics": "^1.0.0",
+          "class-variance-authority": "^0.7.1",
+          "clsx": "^2.1.1",
+          "framer-motion": "^11.0.0",
+          "lucide-react": "^0.441.0",
+          "next": "^15.5.2",
+          "next-themes": "^0.3.0",
+          "react": "^19.1.1",
+          "react-dom": "^19.1.1",
+          "tailwind-merge": "^2.0.0",
+          "tailwindcss-animate": "^1.0.7"
+        },
+        "devDependencies": {
+          "eslint-config-next": "^15.5.2",
+          "@types/node": "^24.3.1",
+          "@types/react": "^19.1.1",
+          "@types/react-dom": "^19.1.1",
+          "@typescript-eslint/eslint-plugin": "^8.42.0",
+          "@typescript-eslint/parser": "^8.42.0",
+          "@vitejs/plugin-react": "^5.0.2",
+          "autoprefixer": "^10.4.14",
+          "eslint": "^9.35.0",
+          "eslint-config-prettier": "^10.1.8",
+          "jsdom": "^25.0.0",
+          "postcss": "^8.4.24",
+          "prettier": "^3.2.0",
+          "tailwindcss": "^3.3.0",
+          "typescript": "^5.9.2",
+          "vitest": "^3.2.4"
+        }
+      },
+      "nextVersion": "^15.5.2"
+    },
+    {
+      "name": "ewm",
+      "path": "/home/runner/work/YanYu-Cloud-Cube-App/YanYu-Cloud-Cube-App/apps/ewm",
+      "hasPackageJson": true,
+      "usesTypeScript": true,
+      "hasAppDir": true,
+      "pageRouterOnly": false,
+      "eslintConfigured": true,
+      "prettierConfigured": true,
+      "testFramework": "vitest",
+      "hasCI": true,
+      "sizeMB": 9,
+      "missingFeatures": [],
+      "recommendations": [
+        "Standardize UI components with design system",
+        "Add comprehensive QR code generation features"
+      ],
+      "priority": "low",
+      "standardizationScore": 100,
+      "packageInfo": {
+        "name": "ewm",
+        "version": "0.0.1",
+        "type": "commonjs",
+        "description": "EWM 应用，基于 Nextra 文档模板",
+        "scripts": {
+          "dev": "next dev",
+          "build": "next build",
+          "start": "next start",
+          "lint": "next lint",
+          "type-check": "tsc --noEmit",
+          "test": "vitest"
+        },
+        "repository": {
+          "type": "git",
+          "url": "git+https://github.com/shuding/nextra-docs-template.git"
+        },
+        "author": "Shu Ding <g@shud.in>",
+        "license": "MIT",
+        "bugs": {
+          "url": "https://github.com/shuding/nextra-docs-template/issues"
+        },
+        "homepage": "https://github.com/shuding/nextra-docs-template#readme",
+        "dependencies": {
+          "@hookform/resolvers": "^3.3.0",
+          "@radix-ui/react-label": "^2.0.0",
+          "@radix-ui/react-slot": "^1.0.0",
+          "@vercel/analytics": "^1.0.0",
+          "@vercel/blob": "^0.19.0",
+          "@vercel/kv": "^1.0.0",
+          "class-variance-authority": "^0.7.0",
+          "clsx": "^2.0.0",
+          "lucide-react": "^0.441.0",
+          "nanoid": "^5.0.0",
+          "next": "^15.5.2",
+          "next-plausible": "^3.12.0",
+          "react": "^19.1.1",
+          "react-dom": "^19.1.1",
+          "react-hook-form": "^7.47.0",
+          "react-hot-toast": "^2.4.0",
+          "replicate": "^0.25.0",
+          "tailwind-merge": "^2.0.0",
+          "zod": "^3.22.0"
+        },
+        "devDependencies": {
+          "@types/node": "^24.3.1",
+          "@types/react": "^19.1.1",
+          "@types/react-dom": "^19.1.1",
+          "@typescript-eslint/eslint-plugin": "^8.42.0",
+          "@typescript-eslint/parser": "^8.42.0",
+          "@vitejs/plugin-react": "^5.0.2",
+          "autoprefixer": "^10.4.14",
+          "eslint": "^9.35.0",
+          "eslint-config-next": "^15.5.2",
+          "eslint-config-prettier": "^10.1.8",
+          "jsdom": "^25.0.0",
+          "postcss": "^8.4.24",
+          "prettier": "^3.2.0",
+          "tailwindcss": "^3.3.0",
+          "tailwindcss-animate": "^1.0.7",
+          "typescript": "^5.9.2",
+          "vitest": "^3.2.4"
+        }
+      },
+      "nextVersion": "^15.5.2"
+    },
+    {
+      "name": "markdown",
+      "path": "/home/runner/work/YanYu-Cloud-Cube-App/YanYu-Cloud-Cube-App/apps/markdown",
+      "hasPackageJson": true,
+      "usesTypeScript": true,
+      "hasAppDir": false,
+      "pageRouterOnly": true,
+      "eslintConfigured": true,
+      "prettierConfigured": true,
+      "testFramework": "vitest",
+      "hasCI": true,
+      "sizeMB": 1,
+      "missingFeatures": [],
+      "recommendations": [
+        "Ensure Nextra documentation is complete",
+        "Add interactive documentation features"
+      ],
+      "priority": "low",
+      "standardizationScore": 100,
+      "packageInfo": {
+        "name": "nextra-docs-template",
+        "version": "0.0.1",
+        "type": "commonjs",
+        "description": "Nextra docs template",
+        "scripts": {
+          "dev": "next dev",
+          "build": "next build",
+          "start": "next start",
+          "lint": "next lint",
+          "type-check": "tsc --noEmit",
+          "test": "vitest"
+        },
+        "repository": {
+          "type": "git",
+          "url": "git+https://github.com/shuding/nextra-docs-template.git"
+        },
+        "author": "Shu Ding <g@shud.in>",
+        "license": "MIT",
+        "bugs": {
+          "url": "https://github.com/shuding/nextra-docs-template/issues"
+        },
+        "homepage": "https://github.com/shuding/nextra-docs-template#readme",
+        "dependencies": {
+          "next": "^15.5.2",
+          "nextra": "latest",
+          "nextra-theme-docs": "latest",
+          "react": "^19.1.1",
+          "react-dom": "^19.1.1"
+        },
+        "devDependencies": {
+          "@types/node": "^24.3.1",
+          "@types/react": "^19.1.1",
+          "@types/react-dom": "^19.1.1",
+          "@typescript-eslint/eslint-plugin": "^8.42.0",
+          "@typescript-eslint/parser": "^8.42.0",
+          "eslint": "^9.35.0",
+          "eslint-config-next": "^15.5.2",
+          "eslint-config-prettier": "^10.1.8",
+          "prettier": "^3.2.0",
+          "typescript": "^5.9.2",
+          "vitest": "^3.2.4"
+        }
+      },
+      "nextVersion": "^15.5.2"
+    },
+    {
+      "name": "Supabase",
+      "path": "/home/runner/work/YanYu-Cloud-Cube-App/YanYu-Cloud-Cube-App/apps/Supabase",
+      "hasPackageJson": true,
+      "usesTypeScript": true,
+      "hasAppDir": false,
+      "pageRouterOnly": true,
+      "eslintConfigured": true,
+      "prettierConfigured": true,
+      "testFramework": "vitest",
+      "hasCI": true,
+      "sizeMB": 2,
+      "missingFeatures": [],
+      "recommendations": [
+        "Add real-time features and improve chat UI"
+      ],
+      "priority": "low",
+      "standardizationScore": 100,
+      "packageInfo": {
+        "name": "supabase-slack-clone-basic",
+        "version": "0.2.0",
+        "type": "commonjs",
+        "license": "MIT",
+        "scripts": {
+          "dev": "next dev",
+          "export": "next export",
+          "build": "next build",
+          "start": "next start",
+          "lint": "next lint",
+          "type-check": "tsc --noEmit",
+          "test": "vitest"
+        },
+        "dependencies": {
+          "@supabase/supabase-js": "^2.57.2",
+          "jwt-decode": "^4.0.0",
+          "next": "^15.5.2",
+          "react": "^19.1.1",
+          "react-dom": "^19.1.1"
+        },
+        "devDependencies": {
+          "@types/node": "^24.3.1",
+          "@types/react": "^19.1.1",
+          "@types/react-dom": "^19.1.1",
+          "@typescript-eslint/eslint-plugin": "^8.42.0",
+          "@typescript-eslint/parser": "^8.42.0",
+          "autoprefixer": "^10.4.14",
+          "eslint": "^9.35.0",
+          "eslint-config-next": "^15.5.2",
+          "eslint-config-prettier": "^10.1.8",
+          "postcss": "^8.4.24",
+          "prettier": "^3.2.0",
+          "tailwindcss": "^4.1.13",
+          "typescript": "^5.9.2",
+          "vitest": "^3.2.4"
+        }
+      },
+      "nextVersion": "^15.5.2"
+    }
+  ],
+  "globalRecommendations": [
+    "建立统一的 UI 组件库和设计系统",
+    "标准化所有应用的技术栈到 Next.js 15.x + TypeScript",
+    "实施统一的代码质量标准 (ESLint + Prettier)",
+    "为所有应用添加全面的测试覆盖",
+    "建立自动化 CI/CD 流程",
+    "实现跨应用的状态管理和数据共享",
+    "优化性能和用户体验一致性",
+    "添加全面的错误监控和日志系统"
+  ],
+  "executionPlan": [
+    {
+      "phase": "Phase 1: 紧急修复和基础标准化",
+      "tasks": [
+        "修复所有高优先级问题",
+        "标准化 package.json 配置",
+        "启用 TypeScript (如果缺失)",
+        "配置基础的 ESLint 和 Prettier",
+        "完成 web 应用的基础功能"
+      ],
+      "estimatedDays": 5
+    },
+    {
+      "phase": "Phase 2: UI 标准化和组件库",
+      "tasks": [
+        "创建统一的 UI 组件库",
+        "标准化所有应用的界面设计",
+        "实现响应式布局",
+        "优化用户体验一致性",
+        "添加主题和样式系统"
+      ],
+      "estimatedDays": 8
+    },
+    {
+      "phase": "Phase 3: 功能完善和集成",
+      "tasks": [
+        "完善各应用的核心功能",
+        "实现应用间的数据共享",
+        "添加用户认证和权限管理",
+        "集成分析和监控系统",
+        "优化性能和加载速度"
+      ],
+      "estimatedDays": 10
+    },
+    {
+      "phase": "Phase 4: 测试和部署优化",
+      "tasks": [
+        "添加全面的单元测试",
+        "实施集成测试",
+        "优化 CI/CD 流程",
+        "配置生产环境部署",
+        "建立监控和告警系统"
+      ],
+      "estimatedDays": 7
+    }
+  ]
+}
