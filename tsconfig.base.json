@@ -18,7 +18,11 @@
     "paths": {
       "@ui/*": ["packages/ui/src/*"],
       "@config/*": ["packages/config/src/*"],
-      "@utils/*": ["packages/utils/src/*"]
+      "@utils/*": ["packages/utils/src/*"],
+      "@ewm/*": ["apps/ewm/*"],
+      "@/components/*": ["apps/ewm/components/*"],
+      "@/utils/*": ["apps/ewm/utils/*"],
+      "@/app/*": ["apps/ewm/app/*"]
     }
   },
   "include": ["packages", "apps"],
