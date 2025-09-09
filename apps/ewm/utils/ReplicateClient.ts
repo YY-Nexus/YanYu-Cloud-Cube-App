@@ -40,7 +40,25 @@ export class ReplicateClient {
 }
 
 const apiKey = getEnv(ENV_KEY.REPLICATE_API_KEY);
-if (!apiKey) {
-  throw new Error('REPLICATE_API_KEY is not set');
-}
-export const replicateClient = new ReplicateClient(apiKey);
+
+let _replicateClient: ReplicateClient | null = null;
+
+export const getReplicateClient = (): ReplicateClient => {
+  if (!_replicateClient) {
+    if (!apiKey) {
+      throw new Error('REPLICATE_API_KEY is not set');
+    }
+    _replicateClient = new ReplicateClient(apiKey);
+  }
+  return _replicateClient;
+};
+
+// For backward compatibility, but will only work if API key is available
+export const replicateClient = (() => {
+  try {
+    return getReplicateClient();
+  } catch {
+    // Return a stub that will fail at runtime instead of build time
+    return null as unknown as ReplicateClient;
+  }
+})();

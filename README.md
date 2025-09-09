@@ -68,12 +68,26 @@ pnpm dev
 
 ## 目录结构
 
-- apps/web: 主应用
-- packages/\*: 复用组件与工具
-- .github/workflows: CI/CD 与复用 workflows
-- infra/scripts: 部署与回滚辅助脚本
-- docs: 文档
-- architecture.md: 架构设计
-- ci-cd.md: CI/CD 流程
-- troubleshooting.md: 问题排查
-- error-budget.md: 错误预算
+### 生产应用
+
+- **apps/ewm**: QR Code Generator - ✅ 完全兼容 Next.js 15
+- **apps/web**: 主应用目录（占位）
+
+### 开发中/示例应用
+
+- **apps/Supabase**: Slack Clone（开发中）- ⚠️ 缺少 lib/ 和 components/ 目录
+- **apps/markdown**: Nextra 文档模板 - ⚠️ 等待 React 19 兼容性
+
+### 基础设施
+
+- **packages/\***: 复用组件与工具
+- **.github/workflows**: CI/CD 与复用 workflows
+- **infra/scripts**: 部署与回滚辅助脚本
+
+### 文档
+
+- **docs**: 文档
+- **architecture.md**: 架构设计
+- **ci-cd.md**: CI/CD 流程
+- **troubleshooting.md**: 问题排查
+- **error-budget.md**: 错误预算

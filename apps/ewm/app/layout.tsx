@@ -1,12 +1,18 @@
 import Navbar from '@/components/Navbar';
 import './globals.css';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+// import { Inter } from 'next/font/google';
 import Footer from '@/components/Footer';
 import { Analytics } from '@vercel/analytics/react';
 import PlausibleProvider from 'next-plausible';
+import { Suspense } from 'react';
 
-const inter = Inter({ subsets: ['latin'] });
+// Use system fonts instead of Google Fonts to avoid network issues during build
+// const inter = Inter({
+//   subsets: ['latin'],
+//   display: 'swap',
+//   fallback: ['system-ui', 'arial']
+// });
 
 let title = 'QrGPT - QR Code Generator';
 let description = 'Generate your AI QR Code in seconds';
@@ -48,8 +54,10 @@ export default function RootLayout({
       <head>
         <PlausibleProvider domain="qrgpt.io" />
       </head>
-      <body className={inter.className}>
-        <Navbar />
+      <body className="font-sans">
+        <Suspense fallback={<div>Loading...</div>}>
+          <Navbar />
+        </Suspense>
         <main>{children}</main>
         <Analytics />
         <Footer />
