@@ -49,6 +49,18 @@ pnpm dev
 
 详细的冲突解决文档请参见 [docs/conflict-resolution.md](docs/conflict-resolution.md)
 
+### Issue 模板系统
+
+项目配备了完善的 GitHub Issue 模板系统，包括：
+
+- 🚀 **功能需求模板** - 详细的需求收集和实现指导
+- 🐛 **Bug 报告模板** - 结构化的问题报告和环境信息收集
+- 🚨 **事故报告模板** - 专业的生产环境故障处理流程
+- 🔧 **标准化治理模板** - 仓库标准化任务追踪
+- 💭 **通用问题模板** - 其他类型问题和讨论
+
+详细说明请参见 [docs/issue-templates.md](docs/issue-templates.md)
+
 ## 分支策略
 
 详见 docs/ci-cd.md

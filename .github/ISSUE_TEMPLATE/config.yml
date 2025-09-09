@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 讨论区 / Discussions
+    url: https://github.com/YY-Nexus/YanYu-Cloud-Cube-App/discussions
+    about: 用于一般性讨论、提问和想法分享 / For general discussions, questions and idea sharing
+  - name: 📚 项目文档 / Project Documentation
+    url: https://github.com/YY-Nexus/YanYu-Cloud-Cube-App/tree/main/docs
+    about: 查看项目文档和架构设计 / View project documentation and architecture design
+  - name: 🚀 实时状态 / Live Status
+    url: https://github.com/YY-Nexus/YanYu-Cloud-Cube-App#-项目状态
+    about: 查看项目当前状态和治理进度 / Check current project status and governance progress
