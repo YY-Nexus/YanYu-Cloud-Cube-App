@@ -55,3 +55,8 @@ logs/
 tmp/
 temp/
 *.tmp
+
+# Git 冲突备份文件
+*.conflict-backup-*
+*.bak
+*.backup
