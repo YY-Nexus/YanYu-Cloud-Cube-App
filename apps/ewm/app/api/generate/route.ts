@@ -48,6 +48,10 @@ export async function POST(request: NextRequest) {
     }
   }
 
+  if (!replicateClient) {
+    return new Response('REPLICATE_API_KEY is not configured', { status: 500 });
+  }
+
   const id = nanoid();
   const startTime = performance.now();
 

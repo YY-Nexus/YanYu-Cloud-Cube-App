@@ -1,8 +1,8 @@
-import '~/styles/style.scss'
+import '../styles/style.scss'
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import UserContext from 'lib/UserContext'
-import { supabase } from 'lib/Store'
+import UserContext from '../lib/UserContext'
+import { supabase } from '../lib/Store'
 import { jwtDecode } from 'jwt-decode'
 
 export default function SupabaseSlackClone({ Component, pageProps }) {
