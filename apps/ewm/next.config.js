@@ -6,8 +6,7 @@ const nextConfig = {
       'g4yqcv8qdhf169fk.public.blob.vercel-storage.com',
     ],
   },
-  // Skip font optimization during build to avoid network issues
-  optimizeFonts: false,
+  // Font optimization is now handled automatically in Next.js 15
 };
 
 module.exports = nextConfig;
