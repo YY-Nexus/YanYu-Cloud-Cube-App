@@ -39,8 +39,23 @@ export class ReplicateClient {
   };
 }
 
-const apiKey = getEnv(ENV_KEY.REPLICATE_API_KEY);
-if (!apiKey) {
-  throw new Error('REPLICATE_API_KEY is not set');
-}
-export const replicateClient = new ReplicateClient(apiKey);
+// Lazy-load the client to avoid build-time errors
+let _replicateClient: ReplicateClient | null = null;
+
+export const getReplicateClient = (): ReplicateClient => {
+  if (!_replicateClient) {
+    const apiKey = getEnv(ENV_KEY.REPLICATE_API_KEY);
+    if (!apiKey) {
+      throw new Error('REPLICATE_API_KEY is not set');
+    }
+    _replicateClient = new ReplicateClient(apiKey);
+  }
+  return _replicateClient;
+};
+
+// Export for backward compatibility
+export const replicateClient = {
+  generateQrCode: (request: QrCodeControlNetRequest): Promise<string> => {
+    return getReplicateClient().generateQrCode(request);
+  },
+};

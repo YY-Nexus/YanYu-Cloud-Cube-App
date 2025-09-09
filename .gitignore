@@ -19,6 +19,7 @@ build/
 *.egg-info/
 .next/
 coverage/
+.turbo/
 
 # IDE 和编辑器
 .vscode/

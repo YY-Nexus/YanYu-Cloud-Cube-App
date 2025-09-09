@@ -1,6 +1,7 @@
-const withNextra = require('nextra')({
-  theme: 'nextra-theme-docs',
-  themeConfig: './theme.config.tsx',
+import nextra from 'nextra'
+
+const withNextra = nextra({
+  // No theme and themeConfig in nextra 4.x, they are configured in the app
 })
 
-module.exports = withNextra()
+export default withNextra()

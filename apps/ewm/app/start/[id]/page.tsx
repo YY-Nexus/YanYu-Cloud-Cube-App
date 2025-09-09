@@ -17,11 +17,12 @@ async function getAllKv(id: string) {
 export async function generateMetadata({
   params,
 }: {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }): Promise<Metadata | undefined> {
-  const data = await getAllKv(params.id);
+  const resolvedParams = await params;
+  const data = await getAllKv(resolvedParams.id);
   if (!data) {
     return;
   }
@@ -55,11 +56,12 @@ export async function generateMetadata({
 export default async function Results({
   params,
 }: {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }) {
-  const data = await getAllKv(params.id);
+  const resolvedParams = await params;
+  const data = await getAllKv(resolvedParams.id);
   if (!data) {
     notFound();
   }
@@ -69,7 +71,7 @@ export default async function Results({
       imageUrl={data.image}
       redirectUrl={data.website_url}
       modelLatency={Number(data.model_latency)}
-      id={params.id}
+      id={resolvedParams.id}
     />
   );
 }

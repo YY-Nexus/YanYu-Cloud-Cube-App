@@ -1,12 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import NavLink from './NavLink';
 import Image from 'next/image';
 import { usePathname, useSearchParams } from 'next/navigation';
 
-const Navbar = () => {
+const NavbarContent = () => {
   const [state, setState] = useState(false);
 
   const navigation = [
@@ -112,6 +112,14 @@ const Navbar = () => {
         </div>
       </nav>
     </header>
+  );
+};
+
+const Navbar = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <NavbarContent />
+    </Suspense>
   );
 };
 
