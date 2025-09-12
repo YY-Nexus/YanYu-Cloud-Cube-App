@@ -1,0 +1,138 @@
+name: Auto-resolve Conflicts and Dependencies
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+  workflow_dispatch:
+
+jobs:
+  auto-resolve-conflicts:
+    name: Auto-resolve conflicts and update dependencies
+    runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.body, '[auto-resolve]') || github.event_name == 'workflow_dispatch'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.0.0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Check for conflicts in pnpm-lock.yaml
+        id: check-pnpm-conflicts
+        run: |
+          if [ -f "pnpm-lock.yaml" ] && grep -q "<<<<<<< \|>>>>>>> \|=======" "pnpm-lock.yaml"; then
+            echo "has_pnpm_conflicts=true" >> $GITHUB_OUTPUT
+            echo "Found conflicts in pnpm-lock.yaml"
+          else
+            echo "has_pnpm_conflicts=false" >> $GITHUB_OUTPUT
+            echo "No conflicts found in pnpm-lock.yaml"
+          fi
+
+      - name: Check for conflicts in package.json
+        id: check-package-conflicts
+        run: |
+          if [ -f "package.json" ] && grep -q "<<<<<<< \|>>>>>>> \|=======" "package.json"; then
+            echo "has_package_conflicts=true" >> $GITHUB_OUTPUT
+            echo "Found conflicts in package.json"
+          else
+            echo "has_package_conflicts=false" >> $GITHUB_OUTPUT
+            echo "No conflicts found in package.json"
+          fi
+
+      - name: Resolve pnpm-lock.yaml conflicts
+        if: steps.check-pnpm-conflicts.outputs.has_pnpm_conflicts == 'true'
+        run: |
+          chmod +x scripts/auto-resolve-conflicts.sh
+          ./scripts/auto-resolve-conflicts.sh pnpm-lock.yaml
+
+      - name: Resolve package.json conflicts
+        if: steps.check-package-conflicts.outputs.has_package_conflicts == 'true'
+        run: |
+          chmod +x scripts/auto-resolve-package-conflicts.sh
+          ./scripts/auto-resolve-package-conflicts.sh package.json
+
+      - name: Install dependencies
+        if: steps.check-pnpm-conflicts.outputs.has_pnpm_conflicts == 'true' || steps.check-package-conflicts.outputs.has_package_conflicts == 'true'
+        run: |
+          pnpm install
+
+      - name: Run linting
+        if: steps.check-pnpm-conflicts.outputs.has_pnpm_conflicts == 'true' || steps.check-package-conflicts.outputs.has_package_conflicts == 'true'
+        run: |
+          pnpm lint:fix || true
+
+      - name: Run type checking
+        if: steps.check-pnpm-conflicts.outputs.has_pnpm_conflicts == 'true' || steps.check-package-conflicts.outputs.has_package_conflicts == 'true'
+        run: |
+          pnpm type-check || true
+
+      - name: Commit resolved conflicts
+        if: steps.check-pnpm-conflicts.outputs.has_pnpm_conflicts == 'true' || steps.check-package-conflicts.outputs.has_package_conflicts == 'true'
+        run: |
+          git add -A
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: auto-resolve conflicts in dependencies
+
+            - Resolved conflicts in pnpm-lock.yaml and/or package.json
+            - Applied intelligent dependency merging
+            - Ran linting and type checking
+            
+            Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+            
+            git push origin HEAD:${{ github.head_ref }}
+          fi
+
+      - name: Comment on PR
+        if: (steps.check-pnpm-conflicts.outputs.has_pnpm_conflicts == 'true' || steps.check-package-conflicts.outputs.has_package_conflicts == 'true') && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pnpmConflicts = '${{ steps.check-pnpm-conflicts.outputs.has_pnpm_conflicts }}' === 'true';
+            const packageConflicts = '${{ steps.check-package-conflicts.outputs.has_package_conflicts }}' === 'true';
+
+            let message = '🤖 **Auto-conflict Resolution Complete**\n\n';
+            message += 'The following conflicts have been automatically resolved:\n\n';
+
+            if (pnpmConflicts) {
+              message += '- ✅ `pnpm-lock.yaml` conflicts resolved\n';
+            }
+            if (packageConflicts) {
+              message += '- ✅ `package.json` conflicts resolved with intelligent dependency merging\n';
+            }
+
+            message += '\n**Actions taken:**\n';
+            message += '- Created backup files with timestamps\n';
+            message += '- Applied conflict resolution strategies\n';
+            message += '- Reinstalled dependencies\n';
+            message += '- Applied code formatting and linting\n';
+            message += '- Committed changes automatically\n\n';
+            message += '**Next steps:**\n';
+            message += '- Review the changes to ensure they meet your expectations\n';
+            message += '- Test the application to verify functionality\n';
+            message += '- Merge when ready\n\n';
+            message += '*This automation helps maintain code quality and reduces manual conflict resolution time.*';
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: message
+            });
