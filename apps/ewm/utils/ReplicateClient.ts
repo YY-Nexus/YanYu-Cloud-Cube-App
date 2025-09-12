@@ -39,8 +39,19 @@ export class ReplicateClient {
   };
 }
 
-const apiKey = getEnv(ENV_KEY.REPLICATE_API_KEY);
-if (!apiKey) {
-  throw new Error('REPLICATE_API_KEY is not set');
+function createReplicateClient() {
+  const apiKey = getEnv(ENV_KEY.REPLICATE_API_KEY);
+  if (!apiKey) {
+    // During build time, we don't need the real client
+    if (
+      process.env.NODE_ENV === 'development' ||
+      process.env.NODE_ENV === 'production'
+    ) {
+      console.warn('REPLICATE_API_KEY is not set');
+    }
+    return null;
+  }
+  return new ReplicateClient(apiKey);
 }
-export const replicateClient = new ReplicateClient(apiKey);
+
+export const replicateClient = createReplicateClient();

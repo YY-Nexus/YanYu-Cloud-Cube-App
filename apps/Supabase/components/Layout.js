@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import { useContext } from 'react'
-import UserContext from '~/lib/UserContext'
-import { addChannel, deleteChannel } from '~/lib/Store'
-import TrashIcon from '~/components/TrashIcon'
+import UserContext from '../lib/UserContext'
+import { addChannel, deleteChannel } from '../lib/Store'
+import TrashIcon from './TrashIcon'
 
 export default function Layout(props) {
   const { signOut, user } = useContext(UserContext)
