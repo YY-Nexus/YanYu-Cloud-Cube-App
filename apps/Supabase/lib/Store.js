@@ -55,27 +55,27 @@ export const useStore = (props) => {
     const messageListener = supabase
       .channel('public:messages')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, (payload) =>
-        handleNewMessage(payload.new)
+        handleNewMessage(payload.new),
       )
       .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'messages' }, (payload) =>
-        handleDeletedMessage(payload.old)
+        handleDeletedMessage(payload.old),
       )
       .subscribe()
     // Listen for changes to our users
     const userListener = supabase
       .channel('public:users')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'users' }, (payload) =>
-        handleNewOrUpdatedUser(payload.new)
+        handleNewOrUpdatedUser(payload.new),
       )
       .subscribe()
     // Listen for new and deleted channels
     const channelListener = supabase
       .channel('public:channels')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'channels' }, (payload) =>
-        handleNewChannel(payload.new)
+        handleNewChannel(payload.new),
       )
       .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'channels' }, (payload) =>
-        handleDeletedChannel(payload.old)
+        handleDeletedChannel(payload.old),
       )
       .subscribe()
     // Cleanup on unmount
