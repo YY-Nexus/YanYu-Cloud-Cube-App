@@ -2,27 +2,26 @@ name: YanYu Cloud Cube App CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
-    runs-on: [self-hosted, macOS, ARM64]  # 使用你的自托管 runner 标签
+    runs-on: [self-hosted, macOS, ARM64] # 使用你的自托管 runner 标签
 
     steps:
-    - name: 检出代码
-      uses: actions/checkout@v4
-
+      - name: 检出代码
+        uses: actions/checkout@v4
     - name: 设置 Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20'
+        node-version: '22'
 
-    - name: 安装依赖
-      run: npm install
+      - name: 安装依赖
+        run: npm install
 
-    - name: 运行测试
-      run: npm test
+      - name: 运行测试
+        run: npm test
 
     # 可以根据你的项目需要添加更多步骤

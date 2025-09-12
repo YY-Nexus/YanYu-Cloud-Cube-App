@@ -4,6 +4,16 @@
 
 ## 主要脚本及用途
 
+### 冲突解决脚本
+
+- `auto-fix-pnpm-lock-conflicts.sh`  
+  专门处理 `pnpm-lock.yaml` 文件中的合并冲突，自动删除冲突内容的上半部分，保留下半部分。
+
+- `auto-resolve-conflicts.sh`  
+  通用的冲突解决脚本，可处理任意文件的 Git 合并冲突，自动删除上半部分内容。
+
+### 仓库管理脚本
+
 - `master-all-in-one.sh`  
   一键执行所有分类处理脚本，包括仓库分类、合并、标准化、分支保护和归档。
 
@@ -53,6 +63,22 @@
 ---
 
 ## 使用说明
+
+### 冲突解决
+
+处理 pnpm-lock.yaml 冲突：
+
+```bash
+./scripts/auto-fix-pnpm-lock-conflicts.sh
+```
+
+处理其他文件冲突：
+
+```bash
+./scripts/auto-resolve-conflicts.sh <文件路径>
+```
+
+### 仓库管理
 
 1. 按需编辑清单文件（如 `merge.txt`）。
 2. 运行对应脚本自动化处理。

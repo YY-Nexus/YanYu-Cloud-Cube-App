@@ -1,7 +1,7 @@
 ---
 name: Incident 工单
 about: 紧急故障或事故处理
-title: "[Incident] "
+title: '[Incident] '
 labels: incident
 ---
 
