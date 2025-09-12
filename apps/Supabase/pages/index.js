@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { supabase } from 'lib/Store'
+import { supabase } from '../lib/Store'
 
 const Home = () => {
   const [username, setUsername] = useState('')

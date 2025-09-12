@@ -1,10 +1,10 @@
-import Layout from '~/components/Layout'
-import Message from '~/components/Message'
-import MessageInput from '~/components/MessageInput'
+import Layout from '../../components/Layout'
+import Message from '../../components/Message'
+import MessageInput from '../../components/MessageInput'
 import { useRouter } from 'next/router'
-import { useStore, addMessage } from '~/lib/Store'
+import { useStore, addMessage } from '../../lib/Store'
 import { useContext, useEffect, useRef } from 'react'
-import UserContext from '~/lib/UserContext'
+import UserContext from '../../lib/UserContext'
 
 const ChannelsPage = (props) => {
   const router = useRouter()

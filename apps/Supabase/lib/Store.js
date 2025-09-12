@@ -1,10 +1,38 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@supabase/supabase-js'
 
-export const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-)
+function createSupabaseClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  
+  if (!supabaseUrl || !supabaseKey) {
+    // During build time, return a mock client
+    console.warn('Supabase environment variables not set')
+    return {
+      auth: {
+        getSession: () => Promise.resolve({ data: { session: null } }),
+        onAuthStateChange: () => ({ subscription: { unsubscribe: () => {} } }),
+        signOut: () => Promise.resolve({ error: null }),
+        signInWithPassword: () => Promise.resolve({ error: null, data: { user: null } }),
+        signUp: () => Promise.resolve({ error: null, data: { user: null } }),
+      },
+      channel: () => ({
+        on: () => ({}),
+        subscribe: () => ({}),
+      }),
+      removeChannel: () => {},
+      from: () => ({
+        select: () => ({ order: () => Promise.resolve({ data: [], error: null }) }),
+        insert: () => Promise.resolve({ data: null, error: null }),
+        delete: () => ({ eq: () => Promise.resolve({ data: null, error: null }) }),
+      }),
+    }
+  }
+  
+  return createClient(supabaseUrl, supabaseKey)
+}
+
+export const supabase = createSupabaseClient()
 
 /**
  * @param {number} channelId the currently selected Channel
