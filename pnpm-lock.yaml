@@ -181,8 +181,8 @@ importers:
         specifier: ^2.0.0
         version: 2.6.0
       zod:
-        specifier: ^3.22.0
-        version: 3.25.76
+        specifier: ^4.1.9
+        version: 4.1.9
     devDependencies:
       '@tailwindcss/forms':
         specifier: ^0.5.10
@@ -9678,17 +9678,14 @@ packages:
       }
     engines: { node: '>=12.20' }
 
-  zod@3.25.76:
-    resolution:
-      {
-        integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==,
-      }
-
   zod@4.0.0-beta.20250424T163858:
     resolution:
       {
         integrity: sha512-fKhW+lEJnfUGo0fvQjmam39zUytARR2UdCEh7/OXJSBbKScIhD343K74nW+UUHu/r6dkzN6Uc/GqwogFjzpCXg==,
       }
+
+  zod@4.1.9:
+    resolution: {integrity: sha512-HI32jTq0AUAC125z30E8bQNz0RQ+9Uc+4J7V97gLYjZVKRjeydPgGt6dvQzFrav7MYOUGFqqOGiHpA/fdbd0cQ==}
 
   zustand@5.0.8:
     resolution:
@@ -16088,11 +16085,11 @@ snapshots:
 
   yocto-queue@1.2.1: {}
 
-  zod@3.25.76: {}
-
   zod@4.0.0-beta.20250424T163858:
     dependencies:
       '@zod/core': 0.9.0
+
+  zod@4.1.9: {}
 
   zustand@5.0.8(@types/react@19.1.13)(react@18.3.1)(use-sync-external-store@1.5.0(react@18.3.1)):
     optionalDependencies:
