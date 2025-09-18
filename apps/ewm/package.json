@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/shuding/nextra-docs-template#readme",
   "dependencies": {
-    "@hookform/resolvers": "^3.3.0",
+    "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-label": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.0",
     "@vercel/analytics": "^1.0.0",
