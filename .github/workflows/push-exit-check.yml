@@ -1,6 +1,3 @@
-# .github/workflows/push-exit-check.yml
-# 在 push 之前添加 pull --rebase 步骤
-
 name: 自动推送 exit-check.mjs
 
 on:
