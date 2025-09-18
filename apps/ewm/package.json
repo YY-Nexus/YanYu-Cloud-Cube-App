@@ -35,7 +35,7 @@
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.47.0",
     "react-hot-toast": "^2.4.0",
-    "replicate": "^0.25.0",
+    "replicate": "^1.2.0",
     "tailwind-merge": "^2.0.0",
     "zod": "^3.22.0"
   },
