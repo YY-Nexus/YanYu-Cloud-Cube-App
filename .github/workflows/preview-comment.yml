@@ -1,36 +1,34 @@
-name: Preview Deploy (PR)
+name: Codacy Security Scan
 
 on:
+  push:
+    branches: [main]
   pull_request:
-    types: [opened, synchronize, reopened]
+    branches: [main]
 
 jobs:
-  preview:
+  security:
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
+
     steps:
-      - uses: actions/checkout@v5
-      - run: npm i -g vercel@latest
-      - name: Build & Deploy Preview
-        run: |
-          vercel pull --yes --environment=preview --token $VERCEL_TOKEN
-          vercel build --token $VERCEL_TOKEN
-          URL=$(vercel deploy --prebuilt --token $VERCEL_TOKEN)
-          echo "PREVIEW_URL=$URL" >> $GITHUB_ENV
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-      - name: Comment PR
-        uses: actions/github-script@v8
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        # 移除 version: 9 字段，使用 package.json 的 packageManager 字段自动检测
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          script: |
-            const url = process.env.PREVIEW_URL;
-            const body = `🔍 Preview 已部署: ${url}`;
-            const {context, github} = require('@actions/github');
-            await github.rest.issues.createComment({
-              ...context.repo,
-              issue_number: context.issue.number,
-              body
-            })
+          node-version: '20' # 按你的项目需要设置 node 版本
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run lint and format
+        run: pnpm lint:fix && pnpm format:write
+
+      # 你的安全扫描步骤
+      - name: Run Codacy Security Scan
+        run: pnpm codacy:scan # 按你的实际脚本调整
