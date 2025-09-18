@@ -35,9 +35,10 @@ describe('Auto-resolve Conflicts Scripts', () => {
       writeFileSync(testPackageJson, content)
 
       const result = execSync(
-        `cd ${testDir} && bash ../scripts/auto-resolve-package-conflicts.sh test-package.json`,
+        'bash ../scripts/auto-resolve-package-conflicts.sh test-package.json',
         {
           encoding: 'utf8',
+          cwd: testDir,
         },
       )
 
