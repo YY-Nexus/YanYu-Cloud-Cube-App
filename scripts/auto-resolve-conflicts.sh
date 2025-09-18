@@ -16,6 +16,30 @@
 
 set -euo pipefail
 
+# Color output support
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Logging functions
+log_info() {
+  echo -e "${BLUE}ℹ️  $1${NC}"
+}
+
+log_success() {
+  echo -e "${GREEN}✅ $1${NC}"
+}
+
+log_warning() {
+  echo -e "${YELLOW}⚠️  $1${NC}"
+}
+
+log_error() {
+  echo -e "${RED}❌ $1${NC}" >&2
+}
+
 usage() {
   cat <<'EOF'
 用法:
@@ -48,12 +72,14 @@ process_file() {
   local file="$1"
 
   if [ ! -f "$file" ]; then
-    echo "❌ 跳过：未找到文件 $file" >&2
+    log_error "跳过：未找到文件 $file"
     return 1
   fi
 
-  if ! grep -q "^<<<<<<< " "$file" 2>/dev/null; then
-    echo "ℹ️  文件 $file 中未发现冲突标记 (<<<<<<<)，跳过。"
+  # Check for any Git conflict markers
+  if ! grep -q "<<<<<<< \|>>>>>>> \|=======" "$file" 2>/dev/null; then
+    log_info "文件 $file 中未发现冲突标记，跳过。"
+    echo "No conflict markers found in $file"
     return 0
   fi
 
@@ -61,9 +87,9 @@ process_file() {
   if [ "${NO_BACKUP:-0}" != "1" ]; then
     backup="$file.bak.$(date +%Y%m%d_%H%M%S)"
     cp "$file" "$backup"
-    echo "🗂  已创建备份: $backup"
+    log_info "已创建备份: $backup"
   else
-    echo "⚠️  未创建备份 (NO_BACKUP=1)"
+    log_warning "未创建备份 (NO_BACKUP=1)"
   fi
 
   local temp
@@ -113,22 +139,22 @@ process_file() {
   ' "$file" > "$temp"
 
   if [ "${DRY_RUN:-0}" = "1" ]; then
-    echo "🔍 DRY_RUN=1 展示 $file 处理后的内容："
+    log_info "DRY_RUN=1 展示 $file 处理后的内容："
     echo "----- BEGIN ($file) -----"
     cat "$temp"
     echo "----- END ($file) -----"
     rm -f "$temp"
   else
     mv "$temp" "$file"
-    echo "✅ 已处理: $file (已删除冲突上半部分，保留下半部分)"
+    log_success "已处理: $file (已删除冲突上半部分，保留下半部分)"
   fi
 
   # 提示后续动作
   if [[ "$file" == *"pnpm-lock.yaml"* ]]; then
-    echo "💡 建议: 运行 pnpm install 以确保锁文件一致性"
+    log_info "建议: 运行 pnpm install 以确保锁文件一致性"
   fi
   if [[ "$file" == *"package.json"* ]]; then
-    echo "💡 建议: 检查依赖并运行 pnpm install / npm install"
+    log_info "建议: 检查依赖并运行 pnpm install / npm install"
   fi
 }
 
@@ -141,13 +167,13 @@ for f in "$@"; do
 done
 
 if [ "${DRY_RUN:-0}" = "1" ]; then
-  echo "ℹ️  DRY_RUN 模式未修改任何文件。"
+  log_info "DRY_RUN 模式未修改任何文件。"
 fi
 
 if [ $overall_status -eq 0 ]; then
-  echo "🎉 所有文件处理完成。"
+  log_success "所有文件处理完成。"
 else
-  echo "⚠️ 部分文件处理失败，请查看上方输出。" >&2
+  log_error "部分文件处理失败，请查看上方输出。"
 fi
 
 exit $overall_status
