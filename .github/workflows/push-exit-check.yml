@@ -30,6 +30,6 @@ jobs:
         run: git pull origin feat/startup-quality-infra --rebase || echo "首次推送或分支无远程内容"
 
       - name: Push changes
-        run: git push origin HEAD:feat/startup-quality-infra
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: git push origin HEAD:feat/startup-quality-infra
