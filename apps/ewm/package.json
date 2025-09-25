@@ -27,7 +27,7 @@
     "@vercel/kv": "^3.0.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
-    "lucide-react": "^0.441.0",
+    "lucide-react": "^0.544.0",
     "nanoid": "^5.0.0",
     "next": "^15.5.2",
     "next-plausible": "^3.12.0",
