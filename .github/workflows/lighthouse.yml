@@ -14,11 +14,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '22'
       - name: 安装 pnpm
-        run: npm install -g pnpm
+        uses: pnpm/action-setup@v4
+        # 推荐用 pnpm/action-setup@v4，自动读取 package.json 的 packageManager 字段
       - name: Install dependencies
         run: pnpm install
       - name: Run Lighthouse

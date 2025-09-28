@@ -19,14 +19,13 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 9.0.0
+        # version 字段已移除，pnpm 版本由 package.json 的 packageManager 自动指定
 
       - name: Configure Git
         run: |

@@ -16,11 +16,13 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: ${{ inputs.node-version }}
-      - name: Install pnpm
-        run: npm install -g pnpm@${{ inputs.pnpm-version }}
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ inputs.pnpm-version }}
       - name: Install dependencies
         run: pnpm install
       - name: Run lint
@@ -31,11 +33,13 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: ${{ inputs.node-version }}
-      - name: Install pnpm
-        run: npm install -g pnpm@${{ inputs.pnpm-version }}
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ inputs.pnpm-version }}
       - name: Install dependencies
         run: pnpm install
       - name: Run tests
@@ -46,11 +50,13 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: ${{ inputs.node-version }}
-      - name: Install pnpm
-        run: npm install -g pnpm@${{ inputs.pnpm-version }}
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ inputs.pnpm-version }}
       - name: Install dependencies
         run: pnpm install
       - name: Run build
