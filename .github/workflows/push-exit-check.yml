@@ -1,5 +1,3 @@
-# 在 push 之前添加 pull --rebase 步骤
-
 name: 自动推送 exit-check.mjs
 
 on:
@@ -24,6 +22,7 @@ jobs:
         run: git add exit-check.mjs
 
       - name: Commit changes
+
         run: git commit -m "CI: 更新 exit-check.mjs" || echo "没有要提交的更改"
 
       - name: Pull latest changes before push (自动处理远程分支冲突)
