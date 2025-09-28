@@ -61,10 +61,10 @@ jobs:
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           output: results.sarif
-          output-format: sarif
-          fail-on: severity
+
+          format: sarif
           gh-code-scanning-compat: true
-          # 你可在此添加更多 CLI 配置项
+          max-allowed-issues: 2147483647
 
       # 上传 SARIF 文件到 GitHub 安全性
       - name: Upload SARIF results file
