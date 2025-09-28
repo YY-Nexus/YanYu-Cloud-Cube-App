@@ -176,8 +176,8 @@ importers:
         specifier: ^2.4.0
         version: 2.6.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       replicate:
-        specifier: ^0.25.0
-        version: 0.25.2
+        specifier: ^0.34.0
+        version: 0.34.1
       tailwind-merge:
         specifier: ^3.3.1
         version: 3.3.1
@@ -223,6 +223,7 @@ importers:
     dependencies:
       next:
         specifier: ^14.2.32
+
         version: 14.2.33(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.93.2)
       nextra:
         specifier: latest
@@ -230,6 +231,7 @@ importers:
       nextra-theme-docs:
         specifier: latest
         version: 4.5.0(@types/react@19.1.15)(next@14.2.33(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.93.2))(nextra@4.5.0(next@14.2.33(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.93.2))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@4.9.5))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(use-sync-external-store@1.5.0(react@18.3.1))
+
       react:
         specifier: ^19.1.1
         version: 19.1.1
@@ -4647,8 +4649,8 @@ packages:
   remark-stringify@11.0.0:
     resolution: {integrity: sha512-1OSmLd3awB/t8qdoEOMazZkNsfVTeY4fTsgzcQFdXNq8ToTN4ZGwrMnlda4K6smTFKD+GRV6O48i6Z4iKgPPpw==}
 
-  replicate@0.25.2:
-    resolution: {integrity: sha512-c5otBJ5E66XLS0X196pBCsyy85b03ZBLeV/lbKfU8cqfkt3Qd6NGEiPwTtxtsQ4AznggMJNn2Qq68t/bV85M2w==}
+  replicate@0.34.1:
+    resolution: {integrity: sha512-kQ5ULqowkZsx34WdUhlAtp9IcpalIfkaSRrFPUGP3gEpXouCxGsjXpn57e3Ic7K3mNw74cLkIrtAgcrlP+pzvg==}
     engines: {git: '>=2.11.0', node: '>=18.0.0', npm: '>=7.19.0', yarn: '>=1.7.0'}
 
   require-directory@2.1.1:
@@ -9987,6 +9989,7 @@ snapshots:
       react-dom: 18.3.1(react@19.1.1)
 
   next@14.2.33(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.93.2):
+
     dependencies:
       '@next/env': 14.2.33
       '@swc/helpers': 0.5.5
@@ -9994,9 +9997,11 @@ snapshots:
       caniuse-lite: 1.0.30001745
       graceful-fs: 4.2.11
       postcss: 8.4.31
+
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       styled-jsx: 5.1.1(react@18.3.1)
+
     optionalDependencies:
       '@next/swc-darwin-arm64': 14.2.33
       '@next/swc-darwin-x64': 14.2.33
@@ -10049,12 +10054,14 @@ snapshots:
       scroll-into-view-if-needed: 3.1.0
       zod: 4.0.0-beta.20250424T163858
       zustand: 5.0.8(@types/react@19.1.15)(react@18.3.1)(use-sync-external-store@1.5.0(react@18.3.1))
+
     transitivePeerDependencies:
       - '@types/react'
       - immer
       - use-sync-external-store
 
   nextra@4.5.0(next@14.2.33(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.93.2))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@4.9.5):
+
     dependencies:
       '@formatjs/intl-localematcher': 0.6.1
       '@headlessui/react': 2.2.9(react-dom@18.3.1(react@19.1.1))(react@19.1.1)
@@ -10075,11 +10082,13 @@ snapshots:
       mdast-util-gfm: 3.1.0
       mdast-util-to-hast: 13.2.0
       negotiator: 1.0.0
+
       next: 14.2.33(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.93.2)
       react: 18.3.1
       react-compiler-runtime: 19.1.0-rc.3(react@18.3.1)
       react-dom: 18.3.1(react@18.3.1)
       react-medium-image-zoom: 5.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+
       rehype-katex: 7.0.1
       rehype-pretty-code: 0.14.1(shiki@3.13.0)
       rehype-raw: 7.0.0
@@ -10666,7 +10675,7 @@ snapshots:
       mdast-util-to-markdown: 2.1.2
       unified: 11.0.5
 
-  replicate@0.25.2:
+  replicate@0.34.1:
     optionalDependencies:
       readable-stream: 4.7.0
 
@@ -11119,7 +11128,9 @@ snapshots:
   style-to-object@1.0.9:
     dependencies:
       inline-style-parser: 0.2.4
+
   styled-jsx@5.1.1(react@18.3.1):
+
     dependencies:
       client-only: 0.0.1
       react: 19.1.1
@@ -11712,6 +11723,7 @@ snapshots:
   zod@4.0.0-beta.20250424T163858:
     dependencies:
       '@zod/core': 0.9.0
+
   zustand@5.0.8(@types/react@19.1.13)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1)):
     optionalDependencies:
       '@types/react': 19.1.15
