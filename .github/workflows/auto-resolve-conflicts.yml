@@ -19,14 +19,13 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 9.0.0
+        # version 字段已移除，pnpm 版本由 package.json 的 packageManager 自动指定
 
       - name: Configure Git
         run: |
@@ -102,7 +101,7 @@ jobs:
 
       - name: Comment on PR
         if: (steps.check-pnpm-conflicts.outputs.has_pnpm_conflicts == 'true' || steps.check-package-conflicts.outputs.has_package_conflicts == 'true') && github.event_name == 'pull_request'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const pnpmConflicts = '${{ steps.check-pnpm-conflicts.outputs.has_pnpm_conflicts }}' === 'true';

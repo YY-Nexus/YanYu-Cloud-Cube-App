@@ -5,9 +5,9 @@
 
 # This workflow checks out code, performs a Codacy security scan
 # and integrates the results with the
-# GitHub Advanced Security code scanning feature.  For more information on
+# GitHub Advanced Security code scanning feature. For more information on
 # the Codacy security scan action usage and parameters, see
-# https://github.com/codacy/codacy-analysis-cli-action.
+# https://github.com/codacy/codacy-analysis-cli-action#usage
 # For more information on Codacy Analysis CLI in general, see
 # https://github.com/codacy/codacy-analysis-cli.
 
@@ -17,7 +17,6 @@ on:
   push:
     branches: [ "main", "feat/startup-quality-infra" ]
   pull_request:
-    # The branches below must be a subset of the branches above
     branches: [ "main" ]
   schedule:
     - cron: '37 2 * * 4'
@@ -38,23 +37,36 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Execute Codacy Analysis CLI and generate a SARIF output with the security issues identified during the analysis
-      - name: Run Codacy Analysis CLI
-        uses: codacy/codacy-analysis-cli-action@d840f886c4bd4edc059706d09c6a1586111c540b
+      # Setup pnpm (去除 version 字段，避免与 package.json 冲突)
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      # Setup Node.js 环境（如有需要，可指定 node-version）
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          # Check https://github.com/codacy/codacy-analysis-cli#project-token to get your project token from your Codacy repository
-          # You can also omit the token and run the tools that support default configurations
+          node-version: '20'
+
+      # 安装依赖
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # 可选：运行 Lint 或格式化
+      - name: Run lint and format
+        run: pnpm lint:fix && pnpm format:write
+
+      # 执行 Codacy Analysis CLI 并生成 SARIF 报告
+      - name: Run Codacy Analysis CLI
+        uses: codacy/codacy-analysis-cli-action@v4
+        with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          verbose: true
           output: results.sarif
+
           format: sarif
-          # Adjust severity of non-security issues
           gh-code-scanning-compat: true
-          # Force 0 exit code to allow SARIF file generation
-          # This will handover control about PR rejection to the GitHub side
           max-allowed-issues: 2147483647
 
-      # Upload the SARIF file generated in the previous step
+      # 上传 SARIF 文件到 GitHub 安全性
       - name: Upload SARIF results file
         uses: github/codeql-action/upload-sarif@v3
         with:
