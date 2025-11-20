@@ -26,16 +26,6 @@ updates:
       prefix-development: 'chore'
       include: 'scope'
 
-  # Update dependencies for markdown app
-  - package-ecosystem: 'npm'
-    directory: '/apps/markdown'
-    schedule:
-      interval: 'weekly'
-    open-pull-requests-limit: 5
-    commit-message:
-      prefix: 'chore'
-      include: 'scope'
-
   # Update dependencies for ewm app
   - package-ecosystem: 'npm'
     directory: '/apps/ewm'
