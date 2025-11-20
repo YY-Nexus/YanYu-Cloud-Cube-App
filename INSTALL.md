@@ -15,10 +15,7 @@ yarn install
 进入对应目录后安装：
 
 ```bash
-cd apps/Supabase
-pnpm install
-
-cd ../ewm
+cd apps/ewm
 pnpm install
 
 cd ../markdown
