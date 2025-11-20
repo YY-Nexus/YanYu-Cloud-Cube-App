@@ -2,6 +2,7 @@
 scripts/__merge/
 merge_/
 ___clones/
+__split/
 
 # Node.js 依赖
 node_modules/

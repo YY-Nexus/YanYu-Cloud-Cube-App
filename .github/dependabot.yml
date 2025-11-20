@@ -15,17 +15,6 @@ updates:
       prefix: 'chore'
       include: 'scope'
 
-  # Update dependencies for Supabase app
-  - package-ecosystem: 'npm'
-    directory: '/apps/Supabase'
-    schedule:
-      interval: 'weekly'
-    open-pull-requests-limit: 5
-    commit-message:
-      prefix: 'chore'
-      prefix-development: 'chore'
-      include: 'scope'
-
   # Update dependencies for markdown app
   - package-ecosystem: 'npm'
     directory: '/apps/markdown'
