@@ -10,7 +10,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.57.4",
+    "@supabase/supabase-js": "^2.75.1",
     "jwt-decode": "^4.0.0",
     "next": "^15.5.4",
     "react": "^19.2.0",
@@ -20,7 +20,7 @@
     "@tailwindcss/postcss": "^4.1.14",
     "@types/node": "^24.5.2",
     "@types/react": "^19.2.0",
-    "@types/react-dom": "^19.2.1",
+    "@types/react-dom": "^19.2.2",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.24",
     "sass": "^1.92.1",
