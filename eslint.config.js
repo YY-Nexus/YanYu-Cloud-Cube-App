@@ -21,7 +21,6 @@ export default [
       'packages/*/dist/',
       '**/next-env.d.ts', // Generated Next.js files
       'YanYu-Cloud-Cube-App/', // Ignore duplicate nested directory
-      'apps/Supabase/', // Ignore Supabase app with many legacy ESLint rule references
     ],
   },
   js.configs.recommended,
