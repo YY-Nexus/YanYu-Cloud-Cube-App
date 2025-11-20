@@ -10,7 +10,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shuding/nextra-docs-template.git"
+    "url": "git+https://github.com/YY-Nexus/YanYu-Cloud-Cube-App.git",
+    "directory": "apps/ewm"
   },
   "author": "Shu Ding <g@shud.in>",
   "license": "MIT",
@@ -35,10 +36,8 @@
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.47.0",
     "react-hot-toast": "^2.4.0",
-
     "replicate": "^0.34.0",
-    "tailwind-merge": "^3.3.1",
-
+    "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.10",

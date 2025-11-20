@@ -3,6 +3,11 @@
   "version": "0.2.0",
   "type": "module",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YY-Nexus/YanYu-Cloud-Cube-App.git",
+    "directory": "apps/Supabase"
+  },
   "scripts": {
     "dev": "next dev",
     "export": "next export",
