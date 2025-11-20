@@ -11,7 +11,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shuding/nextra-docs-template.git"
+    "url": "git+https://github.com/YY-Nexus/YanYu-Cloud-Cube-App.git",
+    "directory": "apps/markdown"
   },
   "author": "Shu Ding <g@shud.in>",
   "license": "MIT",
