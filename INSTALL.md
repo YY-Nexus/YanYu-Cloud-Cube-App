@@ -18,9 +18,6 @@ yarn install
 cd apps/Supabase
 pnpm install
 
-cd ../ewm
-pnpm install
-
 cd ../markdown
 pnpm install
 ```

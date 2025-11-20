@@ -63,22 +63,7 @@
     "duplicationCandidate": false,
     "recommendedAction": "KEEP"
   },
-  {
-    "repo": "ewm",
-    "nextVersion": "^13.5.2",
-    "usesTypeScript": true,
-    "eslintConfigured": true,
-    "prettierConfigured": true,
-    "hasAppDir": true,
-    "pageRouterOnly": false,
-    "testFramework": "",
-    "hasCI": false,
-    "lastCommitDays": 0,
-    "packageManager": "npm",
-    "sizeMB": 17,
-    "duplicationCandidate": false,
-    "recommendedAction": "MERGE"
-  },
+
   {
     "repo": "Docker_stack",
     "nextVersion": "14.2.16",

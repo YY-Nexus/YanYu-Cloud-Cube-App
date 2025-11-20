@@ -4,3 +4,4 @@ packages:
   - '__merge/*'
   - 'scripts/__merge/*'
   - 'scripts/_merge_/*'
+  - '!__split/**'
