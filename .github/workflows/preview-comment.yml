@@ -21,7 +21,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # 按你的项目需要设置 node 版本
+          node-version: '24' # 按你的项目需要设置 node 版本
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
