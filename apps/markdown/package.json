@@ -24,12 +24,12 @@
     "next": "^14.0.0",
     "nextra": "latest",
     "nextra-theme-docs": "latest",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@types/node": "^18.11.10",
     "@types/react": "^19.1.1",
-    "typescript": "^5.9.2"
+    "typescript": "^4.9.3"
   }
 }
