@@ -43,7 +43,7 @@ jobs:
 
       # Setup Node.js 环境（如有需要，可指定 node-version）
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '24'
 
@@ -68,6 +68,6 @@ jobs:
 
       # 上传 SARIF 文件到 GitHub 安全性
       - name: Upload SARIF results file
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: results.sarif
