@@ -13,6 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Renovate Bot
-        uses: renovatebot/github-action@v44.0.3
+        uses: renovatebot/github-action@v44.0.5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
