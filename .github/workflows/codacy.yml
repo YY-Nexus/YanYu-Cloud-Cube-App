@@ -35,7 +35,7 @@ jobs:
     steps:
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       # Setup pnpm (去除 version 字段，避免与 package.json 冲突)
       - name: Setup pnpm
