@@ -35,7 +35,7 @@ jobs:
     steps:
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       # Setup pnpm (去除 version 字段，避免与 package.json 冲突)
       - name: Setup pnpm
@@ -43,9 +43,9 @@ jobs:
 
       # Setup Node.js 环境（如有需要，可指定 node-version）
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '20'
+          node-version: '24'
 
       # 安装依赖
       - name: Install dependencies
@@ -68,6 +68,6 @@ jobs:
 
       # 上传 SARIF 文件到 GitHub 安全性
       - name: Upload SARIF results file
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: results.sarif

@@ -12,16 +12,16 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         # 移除 version: 9 字段，使用 package.json 的 packageManager 字段自动检测
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '20' # 按你的项目需要设置 node 版本
+          node-version: '24' # 按你的项目需要设置 node 版本
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

@@ -10,7 +10,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shuding/nextra-docs-template.git"
+    "url": "git+https://github.com/YY-Nexus/YanYu-Cloud-Cube-App.git",
+    "directory": "apps/ewm"
   },
   "author": "Shu Ding <g@shud.in>",
   "license": "MIT",
@@ -23,34 +24,32 @@
     "@radix-ui/react-label": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.0",
     "@vercel/analytics": "^1.0.0",
-    "@vercel/blob": "^0.27.0",
+    "@vercel/blob": "^2.0.0",
     "@vercel/kv": "^3.0.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
-    "lucide-react": "^0.544.0",
+    "lucide-react": "^0.556.0",
     "nanoid": "^5.0.0",
-    "next": "^15.5.3",
+    "next": "^16.0.5",
     "next-plausible": "^3.12.0",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "react-hook-form": "^7.47.0",
     "react-hot-toast": "^2.4.0",
-
-    "replicate": "^0.34.0",
-    "tailwind-merge": "^3.3.1",
-
+    "replicate": "^1.0.0",
+    "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^24.3.1",
-    "@types/react": "^19.1.1",
-    "@types/react-dom": "^19.1.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
     "autoprefixer": "^10.4.14",
-    "eslint-config-next": "^15.5.3",
+    "eslint-config-next": "^16.0.0",
     "postcss": "^8.4.24",
     "tailwindcss": "^4.1.13",
     "tailwindcss-animate": "^1.0.7",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.3"
   }
 }

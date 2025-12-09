@@ -2,7 +2,7 @@
   "name": "yan-yu-cloud-cube-app",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@9.0.0",
+  "packageManager": "pnpm@10.25.0",
   "workspaces": [
     "apps/*",
     "packages/*"
@@ -24,23 +24,23 @@
     "fix-package-conflicts": "bash scripts/auto-resolve-package-conflicts.sh"
   },
   "dependencies": {
-    "next": "^15.5.3",
+    "next": "^16.0.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.8.1",
-    "@commitlint/config-conventional": "^19.8.1",
+    "@commitlint/cli": "^20.0.0",
+    "@commitlint/config-conventional": "^20.0.0",
     "@eslint/eslintrc": "^3.3.1",
     "@typescript-eslint/eslint-plugin": "^8.42.0",
     "@typescript-eslint/parser": "^8.42.0",
-    "@vitest/coverage-v8": "^3.2.4",
+    "@vitest/coverage-v8": "^4.0.0",
     "eslint": "^9.35.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-hooks": "^7.0.0",
     "eslint-plugin-unused-imports": "^4.2.0",
     "husky": "^9.0.0",
     "lint-staged": "^16.1.6",
@@ -48,6 +48,6 @@
     "standard-version": "^9.5.0",
     "turbo": "^2.0.0",
     "typescript": "^5.9.2",
-    "vitest": "^3.2.4"
+    "vitest": "^4.0.0"
   }
 }
