@@ -54,4 +54,8 @@ logs/
 # 临时文件
 tmp/
 temp/
-*.tmp.turbo/
+*.tmp
+.turbo/
+
+# Conflict backup files
+*.conflict-backup-*
