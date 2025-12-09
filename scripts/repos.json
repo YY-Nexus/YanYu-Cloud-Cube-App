@@ -27,13 +27,7 @@
     "pushedAt": "2025-08-30T05:17:15Z",
     "url": "https://github.com/YY-Nexus/YY-Mgmt"
   },
-  {
-    "defaultBranchRef": { "name": "main" },
-    "isPrivate": false,
-    "name": "ewm",
-    "pushedAt": "2025-08-30T05:16:39Z",
-    "url": "https://github.com/YY-Nexus/ewm"
-  },
+
   {
     "defaultBranchRef": { "name": "main" },
     "isPrivate": false,
