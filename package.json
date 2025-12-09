@@ -2,7 +2,7 @@
   "name": "yan-yu-cloud-cube-app",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@10.23.0",
+  "packageManager": "pnpm@10.25.0",
   "workspaces": [
     "apps/*",
     "packages/*"
