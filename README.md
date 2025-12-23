@@ -23,10 +23,21 @@
 ### 质量指标
 
 - **TypeScript**: ✅ 全面类型检查通过
-- **Lint 警告**: 9 个 (主要是 TypeScript any 类型，不影响功能)
+- **Lint 警告**: 10 个 (主要是 TypeScript any 类型，不影响功能)
 - **测试状态**: ✅ 基础测试和治理测试通过
 - **依赖管理**: 通过 Renovate 自动更新
 - **版本一致性**: ✅ 所有应用已升级至 Next.js 15.x
+
+### 仓库结构
+
+本仓库采用 Turborepo monorepo 结构，包含多个独立应用：
+
+- **Supabase**: 基于 Supabase 的实时聊天应用
+- **EWM**: AI 驱动的 QR 码生成器
+- **Markdown**: Nextra 文档站点
+- **Web**: 主应用（开发中）
+
+详细的仓库结构和验证报告请参见 [docs/split-validation-report.md](docs/split-validation-report.md)
 
 ## 快速开始
 
@@ -81,12 +92,30 @@ pnpm dev
 
 ## 目录结构
 
-- apps/web: 主应用
+### 应用目录
+
+- apps/Supabase: Supabase 实时聊天应用（Slack 克隆）
+- apps/ewm: AI QR 码生成应用
+- apps/markdown: Nextra 文档站点
+- apps/web: 主应用（开发中）
+
+### 共享资源
+
 - packages/\*: 复用组件与工具
+  - packages/config: 共享配置
+  - packages/ui: UI 组件库
+  - packages/utils: 工具函数
+
+### 基础设施
+
 - .github/workflows: CI/CD 与复用 workflows
 - infra/scripts: 部署与回滚辅助脚本
-- docs: 文档
-- architecture.md: 架构设计
-- ci-cd.md: CI/CD 流程
-- troubleshooting.md: 问题排查
-- error-budget.md: 错误预算
+
+### 文档
+
+- docs: 项目文档
+  - architecture.md: 架构设计
+  - ci-cd.md: CI/CD 流程
+  - troubleshooting.md: 问题排查
+  - error-budget.md: 错误预算
+  - split-validation-report.md: 仓库拆分验证报告
