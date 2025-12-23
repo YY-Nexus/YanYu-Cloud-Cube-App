@@ -137,10 +137,10 @@ importers:
         specifier: latest
         version: 4.6.1(@types/react@19.2.7)(next@14.2.35(@babel/core@7.28.5)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.97.0))(nextra@4.6.1(next@14.2.35(@babel/core@7.28.5)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.97.0))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(use-sync-external-store@1.6.0(react@19.2.3))
       react:
-        specifier: ^19.0.0
+        specifier: ^18.2.0
         version: 19.2.3
       react-dom:
-        specifier: ^19.0.0
+        specifier: ^18.2.0
         version: 19.2.3(react@19.2.3)
     devDependencies:
       '@types/node':
