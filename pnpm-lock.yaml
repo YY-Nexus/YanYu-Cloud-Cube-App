@@ -6265,7 +6265,7 @@ snapshots:
 
   '@types/conventional-commits-parser@5.0.2':
     dependencies:
-      '@types/node': 25.0.3
+      '@types/node': 24.10.4
 
   '@types/d3-array@3.2.2': {}
 
