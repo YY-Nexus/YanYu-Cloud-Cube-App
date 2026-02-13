@@ -41,12 +41,12 @@
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.0",
-    "eslint-plugin-unused-imports": "^4.2.0",
+    "eslint-plugin-unused-imports": "^4.4.1",
     "husky": "^9.0.0",
     "lint-staged": "^16.1.6",
     "prettier": "^3.2.0",
     "standard-version": "^9.5.0",
-    "turbo": "^2.0.0",
+    "turbo": "^2.8.3",
     "typescript": "^5.9.2",
     "vitest": "^4.0.0"
   }
